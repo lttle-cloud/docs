@@ -1,0 +1,30 @@
+services:
+  typesense:
+    image: typesense/typesense:29.0
+    ports:
+      - "8108:8108"
+    environment:
+      - TYPESENSE_API_KEY=local-typesense-api-key
+      - TYPESENSE_DATA_DIR=/data
+    volumes:
+      - typesense-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  typesense-scraper:
+    build:
+      context: ./docker
+      dockerfile: ./typesense-scraper.dockerfile
+    environment:
+      - TYPESENSE_API_KEY=local-typesense-api-key
+      - TYPESENSE_HOST=typesense
+      - TYPESENSE_PORT=8108
+      - TYPESENSE_PROTOCOL=http
+      - CONFIG=/typesense-scraper.config.json
+    volumes:
+      - ./docker/typesense-scraper.config.json:/typesense-scraper.config.json:rw
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  typesense-data:

@@ -1,0 +1,10 @@
+certificate:
+  namespace: docs
+  name: cert-docs
+  domains:
+    - docs.lttle.aifrim.com
+    - docs-search.lttle.aifrim.com
+  issuer:
+    auto:
+      provider: letsencrypt
+      email: me@aifrim.com

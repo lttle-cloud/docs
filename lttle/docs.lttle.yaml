@@ -1,0 +1,31 @@
+---
+machine:
+  namespace: docs
+  name: nginx-docs
+  image: aifrim/lttle-docs:latest
+  # NOTE: Based on usage we may need more CPUs / Memory
+  # We should do some load testing for this to have some numbers that will help
+  # us satisfy demand on the short term
+  resources:
+    cpu: 1
+    memory: 256
+  mode:
+    flash:
+      # NOTE: We only need a timeout when NGINX is initially being setup
+      # We do not need any more timeouts after that
+      timeout: 1
+      strategy:
+        listen-on-port: 80
+---
+service:
+  namespace: docs
+  name: docs-ingress
+  target:
+    name: nginx-docs
+    port: 80
+    protocol: http
+  bind:
+    external:
+      host: docs.lttle.aifrim.com
+      protocol: https
+  certificate: cert-docs

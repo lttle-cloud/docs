@@ -1,0 +1,104 @@
+---
+# FIXME: Only allow certain domains to call this machine by enabling CORS
+# TODO: Look for other important security measures for TypeSense
+machine:
+  namespace: docs
+  name: typesense-search
+  image: typesense/typesense:29.0
+  # NOTE: Based on usage we may need more CPUs / Memory
+  # We should do some load testing for this to have some numbers that will help
+  # us satisfy demand on the short term
+  resources:
+    cpu: 1
+    memory: 256
+  mode:
+    flash:
+      # TODO: Check the initial setup type of TypeSense
+      # TODO: Check the work TypeSense does after the scraper has finished
+      # We need to make sure that we put it to sleep after that time has passed
+      timeout: 30
+      strategy:
+        listen-on-port: 8108
+  volumes:
+    - name: typesense-search
+      path: /data
+  environment:
+    # FIXME: Since this is exposed to the public we need to find a way to make
+    # a rolling API KEY that changes every-so-often
+    # TODO: Must get this from an environment variable
+    TYPESENSE_API_KEY: uVnR&EtnaLDfhTgLK$~'n#.NX>z
+    TYPESENSE_DATA_DIR: /data
+---
+machine:
+  namespace: docs
+  name: typesense-scraper
+  image: aifrim/typesense-scraper:latest
+  # TODO: Check memory usage of the TypeSense Scraper and adjust memory
+  resources:
+    cpu: 1
+    memory: 256
+  mode:
+    flash:
+      # We want to manually ask the scraper to scrape our domain when needed
+      strategy: manual
+  # IMPORTANT: Scraper details
+  #
+  # On a successful run the scraper will finish and exit with a 0 exit code.
+  # Thus, we do not want it to restart.
+  #
+  # On a bad run, the scraper will exist with a non-zero exit code.
+  # Thus, we should investigate, fix and then manually restart it.
+  restart-policy: never
+  depends-on:
+    - name: nginx-docs
+    - name: typesense-search
+  environment:
+    # TODO: Must get this from an environment variable
+    TYPESENSE_API_KEY: uVnR&EtnaLDfhTgLK$~'n#.NX>z
+    # This is service-name.namespace.svc.lttle.local
+    TYPESENSE_HOST: typesense-search-internal.docs.svc.lttle.local
+    # NOTE: Does this really need to always be a string, can it not be
+    # A number or a boolean, and then we can transform it to a string?
+    TYPESENSE_PORT: "8108"
+    TYPESENSE_PROTOCOL: http
+    # IMPORTANT:The typesense scraper updates the config and includes `nbHits``
+    # there to now in the future.
+    # This may be important to persist across deployments & refreshes
+    # Maybe this needs a dedicated volume that will be initialized with the
+    # default config
+    CONFIG: /typesense-scraper.config.json
+---
+# This makes typesense reachable from the docs search
+service:
+  namespace: docs
+  name: typesense-search-ingress
+  target:
+    name: typesense-search
+    port: 8108
+    protocol: http
+  bind:
+    external:
+      host: docs-search.lttle.aifrim.com
+      protocol: https
+  certificate: cert-docs
+---
+# This makes typesense reachable internally
+# We point the typesense-scraper to send scraped data to this internal service
+service:
+  namespace: docs
+  name: typesense-search-internal
+  target:
+    name: typesense-search
+    port: 8108
+    protocol: http
+  bind:
+    # NOTE: This looks ugly
+    internal: {}
+---
+volume:
+  namespace: docs
+  mode: writeable
+  name: typesense-search
+  # NOTE: This may be too much for now. Since the size of the docs I would say
+  # That we can go down to 256, or even 128
+  size: 512MB

@@ -1,0 +1,59 @@
+{
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/lttle-cloud/ignition/refs/heads/master/schemas/resources.json": "*.lttle.yaml"
+  },
+
+  "todo-tree.general.tags": [
+    "IMPORTANT",
+    "NOTE",
+    "QUESTION",
+    "TODO",
+    "FIXME",
+    "IMPROVE",
+    "REFACTOR"
+  ],
+  "todo-tree.highlights.customHighlight": {
+    "NOTE": {
+      "foreground": "#000",
+      "background": "#0ff",
+      "iconColour": "#0ff",
+      "icon": "note",
+      "gutterIcon": true
+    },
+    "QUESTION": {
+      "foreground": "#000",
+      "background": "#ff0",
+      "iconColour": "#ff0",
+      "icon": "note",
+      "gutterIcon": true
+    },
+    "TODO": {
+      "foreground": "#fff",
+      "background": "#090",
+      "iconColour": "#090",
+      "icon": "check",
+      "gutterIcon": true
+    },
+    "IMPROVE": {
+      "foreground": "#000",
+      "background": "#fc0",
+      "iconColour": "#fc0",
+      "icon": "calendar",
+      "gutterIcon": true
+    },
+    "FIXME": {
+      "foreground": "#fff",
+      "background": "#f00",
+      "iconColour": "#f00",
+      "gutterIcon": true
+    },
+    "IMPORTANT": {
+      "foreground": "#fff",
+      "background": "#f70",
+      "iconColour": "#f70",
+      "icon": "alert-fill",
+      "gutterIcon": true
+    }
+  },
+  "cSpell.words": ["lttle", "typesense"]
+}

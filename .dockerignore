@@ -1,0 +1,11 @@
+.docusaurus
+.vscode
+
+node_modules
+build
+
+README.md
+
+lttle.yaml
+
+.nvmrc
