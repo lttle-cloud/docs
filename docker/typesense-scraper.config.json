@@ -1,6 +1,8 @@
 {
   "index_name": "lttle-cloud-docs",
-  "allowed_domains": ["host.docker.internal"],
+  "allowed_domains": [
+    "host.docker.internal"
+  ],
   "start_urls": [
     {
       "url": "http://host.docker.internal:3000/"
@@ -16,5 +18,5 @@
     "lvl5": "h6",
     "text": "p, li"
   },
-  "nb_hits": 416
+  "nb_hits": 182
 }
