@@ -75,9 +75,9 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "documentationSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Documentation",
         },
         {
           href: "https://github.com/lttle-cloud/ignition",
@@ -93,8 +93,8 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
-              to: "/docs/intro",
+              label: "Documentation",
+              to: "/docs/introduction/what-is-lttle-dot-cloud",
             },
           ],
         },
