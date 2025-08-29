@@ -13,7 +13,7 @@ machine:
     flash:
       # NOTE: We only need a timeout when NGINX is initially being setup
       # We do not need any more timeouts after that
-      timeout: 1
+      timeout: 5
       strategy:
         listen-on-port: 80
 ---
