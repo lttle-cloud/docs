@@ -74,6 +74,8 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
         alt: "lttle docs",
         src: "img/logo.svg",
         srcDark: "img/logo-dark.svg",
+        height: 32,
+        width: 43,
       },
       items: [
         {
