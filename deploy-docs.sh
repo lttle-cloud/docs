@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -e
+
 echo "Building the lttle-docs image..."
 docker build -f ./docker/dockerfile . -t aifrim/lttle-docs:latest
 
