@@ -5,13 +5,13 @@ export default getConfig({
   typesenseServerConfig: {
     nodes: [
       {
-        // TODO:
+        // FIXME: Get this from environment variable
         host: "docs-search.lttle.aifrim.com",
         port: 443,
         protocol: "https",
       },
     ],
-    // FIXME: Get this from environment variable secret
+    // FIXME: Get this from environment variable
     apiKey: "uVnR&EtnaLDfhTgLK$~'n#.NX>z",
   },
 });

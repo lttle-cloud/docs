@@ -13,7 +13,7 @@ machine:
     memory: 256
   mode:
     flash:
-      # TODO: Check the initial setup type of TypeSense
+      # TODO: Check the initial setup time of TypeSense
       # TODO: Check the work TypeSense does after the scraper has finished
       # We need to make sure that we put it to sleep after that time has passed
       timeout: 30
@@ -61,7 +61,7 @@ machine:
     # A number or a boolean, and then we can transform it to a string?
     TYPESENSE_PORT: "8108"
     TYPESENSE_PROTOCOL: http
-    # IMPORTANT:The typesense scraper updates the config and includes `nbHits``
+    # IMPORTANT: The typesense scraper updates the config and includes `nbHits`
     # there to now in the future.
     # This may be important to persist across deployments & refreshes
     # Maybe this needs a dedicated volume that will be initialized with the

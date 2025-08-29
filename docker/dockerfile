@@ -9,9 +9,9 @@ RUN npm install --frozen-lockfile
 
 RUN npm run build:prod
 
+# TODO: Implement brotli compression
 # Compress all build files with gzip
 # But keep original files
-# TODO: Implement brotli compression
 RUN cd /build/build && find . -type f -exec gzip -9 -k \{\} \;
 
 FROM nginx:1.29.1-alpine3.22

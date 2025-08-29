@@ -28,11 +28,6 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: "lttle.cloud", // Usually your GitHub org/user name.
-  projectName: "lttle-docs", // Usually your repo name.
-
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
 
@@ -139,8 +134,6 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
     // TypeSense is configured with the same cfg as Algolia
     // But it uses a different search engine (Typesense)
     typesense: {
-      // NOTE: Replace this with the name of your index/collection.
-      // It should match the "index_name" entry in the scraper's "config.json" file.
       typesenseCollectionName: "lttle-cloud-docs",
 
       typesenseServerConfig: {
