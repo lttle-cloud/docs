@@ -1,6 +1,8 @@
 services:
   typesense:
     image: typesense/typesense:29.0
+    cpus: 1
+    mem_limit: 256M
     ports:
       - "8108:8108"
     environment:
@@ -15,6 +17,8 @@ services:
     build:
       context: ./docker
       dockerfile: ./typesense-scraper.dockerfile
+    cpus: 1
+    mem_limit: 256M
     environment:
       - TYPESENSE_API_KEY=local-typesense-api-key
       - TYPESENSE_HOST=typesense

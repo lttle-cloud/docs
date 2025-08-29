@@ -5,12 +5,12 @@ machine:
   namespace: docs
   name: typesense-search
   image: typesense/typesense:29.0
-  # NOTE: Based on usage we may need more CPUs / Memory
-  # We should do some load testing for this to have some numbers that will help
-  # us satisfy demand on the short term
+  # IMPORTANT: typesense memory & cpu configuration
+  # For the time being, 1 vCPU and 512 MiB should suffice
+  # To be re-visited later - post-MVP
   resources:
     cpu: 1
-    memory: 256
+    memory: 512
   mode:
     flash:
       # TODO: Check the initial setup time of TypeSense
@@ -36,7 +36,7 @@ machine:
   # TODO: Check memory usage of the TypeSense Scraper and adjust memory
   resources:
     cpu: 1
-    memory: 256
+    memory: 512
   mode:
     flash:
       # We want to manually ask the scraper to scrape our domain when needed

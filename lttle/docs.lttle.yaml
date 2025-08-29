@@ -3,12 +3,12 @@ machine:
   namespace: docs
   name: nginx-docs
   image: aifrim/lttle-docs:latest
-  # NOTE: Based on usage we may need more CPUs / Memory
-  # We should do some load testing for this to have some numbers that will help
-  # us satisfy demand on the short term
+  # IMPORTANT: nginx-docs memory & cpu configuration
+  # For the time being, 1 vCPU and 512 MiB should suffice
+  # To be re-visited later - post-MVP
   resources:
     cpu: 1
-    memory: 256
+    memory: 512
   mode:
     flash:
       # NOTE: We only need a timeout when NGINX is initially being setup
