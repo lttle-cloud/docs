@@ -45,7 +45,7 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/lttle-cloud/docs",
+          editUrl: "https://github.com/lttle-cloud/docs/tree/main",
         },
         theme: {
           customCss: "./src/css/custom.css",
