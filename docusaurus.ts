@@ -94,7 +94,7 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
           items: [
             {
               label: "Documentation",
-              to: "/docs/introduction/what-is-lttle-dot-cloud",
+              to: "/docs/introduction",
             },
           ],
         },
