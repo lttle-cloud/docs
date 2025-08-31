@@ -11,6 +11,22 @@ The deployment configuration is defined in the `lttle` directory, which contains
 3. Authentication to the container registry where the Docker images are stored.
 4. Authentication to the `lttle` CLI with the appropriate credentials.
 
+## Environment Variables
+
+For local development, you can create a `.env` file in the root of the project to define the necessary environment variables. Here's an example of the variables you might need:
+
+```sh
+TYPESENSE_API_KEY=some-api-key
+```
+
+For production deployment there are multiple variables needed because we use them to deploy the services on both the production and for preview deployments.
+
+```sh
+DOCS_URL=https://path.to.docs.url
+TYPESENSE_URL=https://path.to.typesense.url
+TYPESENSE_API_KEY=some-api-key
+```
+
 ## Deployment Steps
 
 1. **Build the Docker Images**: Ensure that the Docker images for the documentation website and the TypeSense scraper are built and pushed to a container registry. You can use the following commands:
