@@ -1,17 +1,18 @@
+import dotenv from "dotenv";
 import { getConfig } from "./docusaurus";
 
+dotenv.config({ path: ".env.production" });
+
 export default getConfig({
-  url: "https://docs.lttle.aifrim.example.com",
+  url: process.env.DOCS_URL,
   typesenseServerConfig: {
     nodes: [
       {
-        // FIXME: Get this from environment variable
-        host: "docs-search.lttle.aifrim.com",
+        host: process.env.TYPESENSE_FQDN,
         port: 443,
         protocol: "https",
       },
     ],
-    // FIXME: Get this from environment variable
-    apiKey: "uVnR&EtnaLDfhTgLK$~'n#.NX>z",
+    apiKey: process.env.TYPESENSE_API_KEY,
   },
 });

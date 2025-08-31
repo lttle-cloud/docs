@@ -1,0 +1,79 @@
+name: ci
+
+on:
+  workflow_call:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: dependencies-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            dependencies-${{ hashFiles('package-lock.json') }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22.18.0
+
+      - run: npm install --frozen-lockfile 2> >(grep -v warning 1>&2)
+
+  typecheck:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: dependencies-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            dependencies-${{ hashFiles('package-lock.json') }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22.18.0
+
+      - run: npm run typecheck
+
+  build:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: dependencies-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            dependencies-${{ hashFiles('package-lock.json') }}
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            build
+          key: build-${{ hashFiles('package-lock.json') }}-${{ github.ref }}
+          restore-keys: |
+            build-${{ hashFiles('package-lock.json') }}-${{ github.ref }}
+            build-${{ hashFiles('package-lock.json') }}
+
+      - name: "Setting up dummy environment variables into .env.production file"
+        run: |
+          echo "DOCS_URL='http://example.com'" >> .env.production
+          echo "TYPESENSE_FQDN='https://typesense.example.com'" >> .env.production
+          echo "TYPESENSE_API_KEY='your-typesense-api-key'" >> .env.production
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22.18.0
+
+      - run: npm run build:prod

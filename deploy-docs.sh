@@ -2,14 +2,21 @@
 
 set -e
 
-echo "Building the lttle-docs image..."
-docker build -f ./docker/dockerfile . -t aifrim/lttle-docs:latest
+source ./deploy/utilities.bash
 
-echo "Pushing the images to Docker Hub..."
-docker push aifrim/lttle-docs:latest
+if [[ -f .env.production ]]; then
+  export $(xargs < .env.production)
+fi
 
-echo "Deploying only the nginx-docs"
-lttle deploy ./lttle/docs.lttle.yaml
+if [ -z "${GITHUB_HEAD_REF+x}" ]; then
+  GITHUB_HEAD_REF=$(git rev-parse --abbrev-ref HEAD)
+  export GITHUB_HEAD_REF
+fi
 
-exec "Restarting the machine to apply changes"
-lttle machine restart --ns docs nginx-docs
+namespace="docs-"$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch'")
+tag=$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'latest' : env.GITHUB_HEAD_REF + '-branch'")
+
+docsURL="https://"$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host'")
+typesenseFQDN=$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'docs-search.lttle.aifrim.com' : 'docs-search-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host'")
+
+deployDocs "$namespace" "$tag" "$docsURL" "$typesenseFQDN"

@@ -4,8 +4,8 @@
 node_modules
 build
 
-README.md
+*.md
 
-lttle.yaml
+*.yaml
 
 .nvmrc

@@ -1,0 +1,86 @@
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - ".github/workflows/release.yml"
+  pull_request:
+    branches: ["main"]
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight-checks:
+    uses: ./.github/workflows/checks.yaml
+
+  deploy:
+    needs: [preflight-checks]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.head_ref }}
+      url: ${{ steps.deploymentUrl.outputs.url }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: dependencies-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            dependencies-${{ hashFiles('package-lock.json') }}
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            build
+          key: build-${{ hashFiles('package-lock.json') }}-${{ github.ref }}
+          restore-keys: |
+            build-${{ hashFiles('package-lock.json') }}-${{ github.ref }}
+            build-${{ hashFiles('package-lock.json') }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: "Installing lttle cli"
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/lttle-cloud/ignition/refs/heads/master/get/lttle.sh | bash
+
+      - name: "Authenticating with eu.lttle.cloud"
+        env:
+          LTTLE_JWT_TOKEN: ${{ secrets.LTTLE_JWT_TOKEN }}
+        run: |
+          lttle login --api "http://eu.lttle.cloud:5100" "$LTTLE_JWT_TOKEN"\
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22.18.0
+      - name: "Setting up environment variables into .env.production file"
+        run: |
+          echo "TYPESENSE_API_KEY='$TYPESENSE_API_KEY'" >> .env.production
+
+      - name: "Setting deployment url"
+        id: deploymentUrl
+        run: |
+          url="https://"$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host'")
+          echo "url=$url" >> $GITHUB_OUTPUT
+
+      # TODO: Split this into several bash functions so that we can use the dedicated docker build actions
+      # To facilitate caching so that rebuilding will be faster
+      # https://docs.docker.com/build/ci/github-actions/
+      - name: "Deploying the application"
+        run: ./deploy.sh
+
+        # NOTE: This has been added because we need to wait for the application to be fully up before proceeding
+        # The status of the machine does not reflect the readiness of the service + machine to receive traffic
+        # And we want the scraper to actually scrape the documentation post-deployment & readiness
+      - name: "Waiting for the application to be ready"
+        run: ./wait-for-app.sh
+
+      - name: "Restarting the application"
+        run: ./restart.sh scraper

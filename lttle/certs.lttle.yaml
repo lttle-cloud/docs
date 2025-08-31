@@ -1,6 +1,6 @@
 certificate:
-  namespace: docs
-  name: cert-docs
+  namespace: docs-main
+  name: main
   domains:
     - docs.lttle.aifrim.com
     - docs-search.lttle.aifrim.com
