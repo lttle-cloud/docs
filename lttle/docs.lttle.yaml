@@ -1,14 +1,15 @@
 ---
 machine:
-  namespace: docs
+  namespace: "docs-${{ env.GITHUB_HEAD_REF == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
   name: nginx-docs
-  image: aifrim/lttle-docs:latest
+  image: "aifrim/lttle-docs:${{ env.GITHUB_HEAD_REF == 'main' ? 'latest' : env.GITHUB_HEAD_REF + '-branch' }}"
   # IMPORTANT: nginx-docs memory & cpu configuration
   # For the time being, 1 vCPU and 512 MiB should suffice
   # To be re-visited later - post-MVP
   resources:
     cpu: 1
-    memory: 512
+    # Production 512MiB, Preview Environments for branches: 64Mib
+    memory: "${{ env.GITHUB_HEAD_REF == 'main' ? 512 : 64 }}"
   mode:
     flash:
       # NOTE: We only need a timeout when NGINX is initially being setup
@@ -18,7 +19,7 @@ machine:
         listen-on-port: 80
 ---
 service:
-  namespace: docs
+  namespace: "docs-${{ env.GITHUB_HEAD_REF == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
   name: docs-ingress
   target:
     name: nginx-docs
@@ -26,6 +27,8 @@ service:
     protocol: http
   bind:
     external:
-      host: docs.lttle.aifrim.com
+      # Production is docs.lttle.aifrim.com (for now) where we have dedicated certificate
+      # Preview Environments are reusing the same wildcard certificate from *.eu.lttle.host
+      host: "${{ env.GITHUB_HEAD_REF == 'main' ? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host' }}"
       protocol: https
-  certificate: cert-docs
+  certificate: "${{ env.GITHUB_HEAD_REF == 'main' ? 'main' : null }}"

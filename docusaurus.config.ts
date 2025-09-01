@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
 import { getConfig } from "./docusaurus";
+
+dotenv.config({ path: ".env" });
 
 export default getConfig({
   url: "http://localhost:3000",
@@ -10,7 +13,6 @@ export default getConfig({
         protocol: "http",
       },
     ],
-    // FIXME: Get api key from env var
-    apiKey: "local-typesense-api-key",
+    apiKey: process.env.TYPESENSE_API_KEY,
   },
 });

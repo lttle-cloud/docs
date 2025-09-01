@@ -23,7 +23,7 @@ For production deployment there are multiple variables needed because we use the
 
 ```sh
 DOCS_URL=https://path.to.docs.url
-TYPESENSE_URL=https://path.to.typesense.url
+TYPESENSE_FQDN=https://path.to.typesense.url
 TYPESENSE_API_KEY=some-api-key
 ```
 
