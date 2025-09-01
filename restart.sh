@@ -13,7 +13,7 @@ if [ -z "${GITHUB_HEAD_REF+x}" ]; then
   export GITHUB_HEAD_REF
 fi
 
-namespace="docs-"$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch'");
+namespace="docs-"$(lttle deploy --eval "git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch'");
 
 what="$1"
 
