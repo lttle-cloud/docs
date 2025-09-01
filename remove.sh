@@ -34,6 +34,4 @@ lttle service rm --ns "$namespace" typesense-search-internal -y
 echo "Removing volumes for namespace $namespace"
 lttle volume rm --ns "$namespace" typesense-search -y
 
-lttle cert rm --ns "$namespace" cert-docs -y
-
 echo "Certificates are not removed"
