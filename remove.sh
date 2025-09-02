@@ -13,12 +13,11 @@ if [ -z "${GITHUB_HEAD_REF+x}" ]; then
   export GITHUB_HEAD_REF
 fi
 
-namespace="docs-"$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch'")
+namespace="docs-"$(lttle deploy --eval "git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch'")
 
-# if the namespace is docs-main, we stop
-if [ "$namespace" == "docs-main" ]; then
+# if [ "$namespace" == "docs-main" ]; then
   echo "We do not remove the main documentation"
-  exit 0
+  exit 1
 fi
 
 echo "Removing machines for namespace $namespace"

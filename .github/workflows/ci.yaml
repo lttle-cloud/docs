@@ -19,7 +19,7 @@ jobs:
     needs: [preflight-checks]
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.head_ref }}
+      name: ${{ github.ref_name }}
       url: ${{ steps.deploymentUrl.outputs.url }}
     steps:
       - uses: actions/checkout@v3
@@ -49,13 +49,13 @@ jobs:
 
       - name: "Installing lttle cli"
         run: |
-          curl -fsSL https://raw.githubusercontent.com/lttle-cloud/ignition/refs/heads/master/get/lttle.sh | bash
+          curl -fsSL https://install.lttle.sh | bash
 
       - name: "Authenticating with eu.lttle.cloud"
         env:
           LTTLE_JWT_TOKEN: ${{ secrets.LTTLE_JWT_TOKEN }}
         run: |
-          lttle login --api "http://eu.lttle.cloud:5100" "$LTTLE_JWT_TOKEN"\
+          lttle login --api "http://eu.lttle.cloud:5100" "$LTTLE_JWT_TOKEN"
 
       - uses: actions/setup-node@v3
         with:
@@ -67,7 +67,7 @@ jobs:
       - name: "Setting deployment url"
         id: deploymentUrl
         run: |
-          url="https://"$(lttle deploy --eval "env.GITHUB_HEAD_REF == 'main' ? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host'")
+          url="https://"$(lttle deploy --eval "git.ref == 'main'? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host'")
           echo "url=$url" >> $GITHUB_OUTPUT
 
       # TODO: Split this into several bash functions so that we can use the dedicated docker build actions
