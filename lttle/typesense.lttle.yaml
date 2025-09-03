@@ -2,7 +2,7 @@
 # FIXME: Only allow certain domains to call this machine by enabling CORS
 # TODO: Look for other important security measures for TypeSense
 machine:
-  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
+  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}"
   name: typesense-search
   image: typesense/typesense:29.0
   # IMPORTANT: typesense memory & cpu configuration
@@ -30,9 +30,9 @@ machine:
     TYPESENSE_DATA_DIR: /data
 ---
 machine:
-  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
+  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}"
   name: typesense-scraper
-  image: "aifrim/typesense-scraper:${{ git.ref == 'main'? 'latest' : env.GITHUB_HEAD_REF + '-branch' }}"
+  image: "aifrim/typesense-scraper:${{ git.ref == 'main'? 'latest' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}"
   # TODO: Check memory usage of the TypeSense Scraper and adjust memory
   resources:
     cpu: 1
@@ -56,7 +56,7 @@ machine:
     # TODO: Must get this from an environment variable
     TYPESENSE_API_KEY: ${{ env.TYPESENSE_API_KEY }}
     # This is service-name.namespace.svc.lttle.local
-    TYPESENSE_HOST: "typesense-search-internal.docs-${{ git.ref == 'main'? 'main' : env.GITHUB_HEAD_REF + '-branch' }}.svc.lttle.local"
+    TYPESENSE_HOST: "typesense-search-internal.docs-${{ git.ref == 'main'? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}.svc.lttle.local"
     # NOTE: Does this really need to always be a string, can it not be
     # A number or a boolean, and then we can transform it to a string?
     TYPESENSE_PORT: "8108"
@@ -70,7 +70,7 @@ machine:
 ---
 # This makes typesense reachable from the docs search
 service:
-  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
+  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}"
   name: typesense-search-ingress
   target:
     name: typesense-search
@@ -78,14 +78,14 @@ service:
     protocol: http
   bind:
     external:
-      host: "${{ git.ref == 'main'? 'docs-search.lttle.aifrim.com' : 'docs-search-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host' }}"
+      host: "${{ git.ref == 'main'? 'docs-search.lttle.aifrim.com' : 'docs-search-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host' }}"
       protocol: https
   certificate: "${{ git.ref == 'main'? 'cert-docs' : null }}"
 ---
 # This makes typesense reachable internally
 # We point the typesense-scraper to send scraped data to this internal service
 service:
-  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
+  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}"
   name: typesense-search-internal
   target:
     name: typesense-search
@@ -96,7 +96,7 @@ service:
     internal: {}
 ---
 volume:
-  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch' }}"
+  namespace: "docs-${{ git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch' }}"
   mode: writeable
   name: typesense-search
   # NOTE: This may be too much for now. Since the size of the docs I would say
