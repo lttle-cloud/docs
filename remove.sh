@@ -13,9 +13,9 @@ if [ -z "${GITHUB_HEAD_REF+x}" ]; then
   export GITHUB_HEAD_REF
 fi
 
-namespace="docs-"$(lttle deploy --eval "git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF + '-branch'")
+namespace="docs-"$(lttle deploy --eval "git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch'")
 
-# if [ "$namespace" == "docs-main" ]; then
+if [ "$namespace" == "docs-main" ]; then
   echo "We do not remove the main documentation"
   exit 1
 fi

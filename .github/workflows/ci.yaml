@@ -67,7 +67,7 @@ jobs:
       - name: "Setting deployment url"
         id: deploymentUrl
         run: |
-          url="https://"$(lttle deploy --eval "git.ref == 'main'? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF  + '-lttle-aifrim.eu.lttle.host'")
+          url="https://"$(lttle deploy --eval "git.ref == 'main'? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host'")
           echo "url=$url" >> $GITHUB_OUTPUT
 
       # TODO: Split this into several bash functions so that we can use the dedicated docker build actions
