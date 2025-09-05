@@ -130,6 +130,12 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      magicComments: [
+        {
+          className: "code-block-error-line",
+          line: "code-block-error-line",
+        },
+      ],
     },
     // TypeSense is configured with the same cfg as Algolia
     // But it uses a different search engine (Typesense)
