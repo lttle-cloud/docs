@@ -1,0 +1,187 @@
+---
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import TOCInline from '@theme/TOCInline';
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+
+# Placeholder
+
+## Tabs
+
+[Documentation](https://docusaurus.io/docs/markdown-features/tabs)
+
+<Tabs>
+  <TabItem value="apple" label="Apple" default>
+    This is an apple 🍎
+  </TabItem>
+  <TabItem value="orange" label="Orange">
+    This is an orange 🍊
+  </TabItem>
+  <TabItem value="banana" label="Banana">
+    This is a banana 🍌
+  </TabItem>
+</Tabs>
+
+## Code Block
+
+[Documentation](https://docusaurus.io/docs/markdown-features/code-blocks)
+
+### Simple
+
+```ts title="example.ts"
+function add(a: number, b: number): number {
+  return a + b;
+}
+```
+
+And here is some inline code: `const x = 10;`
+
+### With line numbers
+
+```ts title="example.ts" showLineNumbers
+function add(a: number, b: number): number {
+  return a + b;
+}
+```
+
+### With highlighted lines
+
+#### Highlight line
+
+```ts title="example.ts"
+function add(a: number, b: number): number {
+    // highlight-next-line
+    return a + b;
+}
+```
+
+#### Highligh error line
+
+```ts title="example.ts"
+function divide(a: number, b: number): number {
+  // code-block-error-line
+  return a / b;
+}
+```
+
+## Admonitions
+
+[Documentation](https://docusaurus.io/docs/markdown-features/admonitions)
+
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::warning
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+### Nested admonitions
+
+:::::info[Parent]
+
+Parent content
+
+::::danger[Child]
+
+Child content
+
+:::tip[Deep Child]
+
+Deep child content
+
+:::
+
+::::
+
+:::::
+
+#### Admonitions with MDX
+
+:::tip[Use tabs in admonitions]
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+
+## Headings
+
+[Documentation](https://docusaurus.io/docs/markdown-features/headings)
+
+### H3 Lorem ipsum
+
+#### H4 Dolor sit amet
+
+##### H5 Consectetur
+
+###### H6 Sed do eiusmod
+
+### Table of contents
+
+<TOCInline
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  maxHeadingLevel={4}
+/>
+
+## Details
+
+[Documentation](https://docusaurus.io/docs/markdown-features#details)
+
+<summary>Click to expand</summary>
+<details>
+This content is hidden by default.
+</details>
+
+## Table
+
+| Syntax      | Description | Test |
+| ----------- | ----------- | ---- |
+| Header      | Title       | Here's this   |
+| Paragraph   | Text        | And more      |
+| Multiline   | Text        | And more      |
+| With breaks | Text        | And more      |
+
+### Browser
+
+### Browser Window
+
+<BrowserWindow url="https://lttle.cloud/">
+
+Hello world
+
+</BrowserWindow>
+
+### IframeWindow
+
+<IframeWindow url="https://lttle.cloud/" />
