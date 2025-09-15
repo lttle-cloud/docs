@@ -55,7 +55,7 @@ jobs:
         env:
           LTTLE_JWT_TOKEN: ${{ secrets.LTTLE_JWT_TOKEN }}
         run: |
-          lttle login --api "http://eu.lttle.cloud:5100" "$LTTLE_JWT_TOKEN"
+          lttle login --api "https://eu.lttle.cloud" "$LTTLE_JWT_TOKEN"
 
       - uses: actions/setup-node@v3
         with:
