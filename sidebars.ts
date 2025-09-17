@@ -18,10 +18,10 @@ const sidebars: SidebarsConfig = {
       type: "doc",
       id: "index",
     },
-    // {
-    //   type: "doc",
-    //   id: "placeholder",
-    // },
+    {
+      type: "doc",
+      id: "placeholder",
+    },
     {
       type: "category",
       label: "Getting Started",
