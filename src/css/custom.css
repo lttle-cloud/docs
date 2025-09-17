@@ -51,6 +51,7 @@
     --color-gray-6: #69748f;
 
     --color-black-1: #3d4457;
+    --color-black-1-5: #2e3340;
     --color-black-2: #181b23;
     --color-black-3: #05070e;
 
@@ -70,6 +71,7 @@
     --ifm-color-gray-600: var(--color-gray-5);
     --ifm-color-gray-700: var(--color-gray-6);
     --ifm-color-gray-800: var(--color-black-1);
+    --ifm-color-gray-850: var(--color-black-1-5);
     --ifm-color-gray-900: var(--color-black-2);
 
     --ifm-color-primary: var(--color-pink-3);
@@ -97,14 +99,15 @@
     --ifm-border-radius: 1rem;
     --ifm-button-border-radius: 1rem;
 
+    --ifm-landing-page-section-background-color: var(--ifm-color-gray-200);
+    --ifm-landing-page-feature-card-background-color: white;
+    --ifm-landing-page-feature-card-box-shadow: 8px 8px 0 0
+        var(--ifm-color-gray-400);
+
     .button {
         transition: all 0.1s ease-in-out;
         box-shadow: 5px 5px 0 0 var(--color-black-2);
     }
-
-    /* .button.button--secondary {
-        color: white;
-    } */
 
     .button:hover,
     .button--primary:hover,
@@ -124,11 +127,8 @@
 
     --ifm-font-family-base: "Onest", sans-serif;
     --ifm-heading-font-family: "Onest", sans-serif;
-
-    /* Extended color palette from design reference */
 }
 
-/* Text selection color */
 ::selection {
     background: var(--color-teal-3);
     color: #ffffff;
@@ -151,12 +151,17 @@
 
     --ifm-font-family-base: "Onest", sans-serif;
     --ifm-heading-font-family: "Onest", sans-serif;
+
+    --ifm-landing-page-section-background-color: var(--ifm-color-gray-850);
+    --ifm-landing-page-feature-card-background-color: var(--ifm-color-gray-800);
+    --ifm-landing-page-feature-card-box-shadow: 8px 8px 0 0
+        var(--ifm-color-gray-700);
 }
 
 .code-block-error-line {
-  background-color: #ff000020;
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
-  border-left: 3px solid #ff000080;
+    background-color: #ff000020;
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
+    border-left: 3px solid #ff000080;
 }
