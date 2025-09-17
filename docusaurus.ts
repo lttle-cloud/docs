@@ -46,6 +46,12 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
         docs: {
           sidebarPath: "./sidebars.ts",
           editUrl: "https://github.com/lttle-cloud/docs/tree/main",
+          remarkPlugins: [
+            [
+              require("@docusaurus/remark-plugin-npm2yarn"),
+              { sync: true, converters: ["yarn", "pnpm"] },
+            ],
+          ],
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -54,7 +60,11 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
     ],
   ],
 
-  themes: ["docusaurus-theme-search-typesense"],
+  themes: ["docusaurus-theme-search-typesense", "@docusaurus/theme-mermaid"],
+
+  markdown: {
+    mermaid: true,
+  },
 
   themeConfig: {
     // TODO: Replace with your project's social card
@@ -80,6 +90,18 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
           label: "Documentation",
         },
         {
+          type: "docSidebar",
+          sidebarId: "guidesSidebar",
+          position: "left",
+          label: "Guides & Samples",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "sdksSidebar",
+          position: "left",
+          label: "SDKs",
+        },
+        {
           href: "https://github.com/lttle-cloud/ignition",
           label: "GitHub",
           position: "right",
@@ -93,8 +115,16 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
           title: "Docs",
           items: [
             {
-              label: "Documentation",
-              to: "/docs/introduction",
+              label: "Getting Started",
+              to: "/docs/getting-started/installing-the-cli",
+            },
+            {
+              label: "Deploying a static site",
+              to: "/docs/getting-started/deploying-a-static-site",
+            },
+            {
+              label: "Tutorials",
+              to: "https://www.youtube.com/@awesome-coding/videos",
             },
           ],
         },
@@ -136,6 +166,16 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
           line: "code-block-error-line",
         },
       ],
+      additionalLanguages: [
+        "json",
+        "yaml",
+        "rust",
+        "go",
+        "bash",
+        "docker",
+        "nginx",
+        "psl",
+      ],
     },
     // TypeSense is configured with the same cfg as Algolia
     // But it uses a different search engine (Typesense)
@@ -151,6 +191,10 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
 
       // Optional
       contextualSearch: true,
+    },
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 6,
     },
   } satisfies Preset.ThemeConfig & DeepPartial<TypesenseThemeConfig>,
 });

@@ -4,4 +4,10 @@ sidebar_position: 2
 
 # Deploying
 
-## Image Pull Secrets
+:::note Work in Progress
+
+This section is a work in progress.
+
+:::
+
+<!-- ## Image Pull Secrets -->

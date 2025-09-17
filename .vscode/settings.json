@@ -1,6 +1,6 @@
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/lttle-cloud/ignition/refs/heads/master/schemas/resources.json": "*.lttle.yaml"
+    "https://resources.lttle.sh": "*.lttle.yaml"
   },
 
   "todo-tree.general.tags": [

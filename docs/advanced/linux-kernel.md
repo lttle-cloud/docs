@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Ignition Daemon (ignitiond)
+# Linux Kernel
 
 :::note Work in Progress
 

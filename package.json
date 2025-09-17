@@ -20,6 +20,7 @@
     "@docusaurus/module-type-aliases": "3.8.1",
     "@docusaurus/plugin-sitemap": "^3.8.1",
     "@docusaurus/preset-classic": "3.8.1",
+    "@docusaurus/remark-plugin-npm2yarn": "^3.8.1",
     "@docusaurus/tsconfig": "3.8.1",
     "@docusaurus/types": "3.8.1",
     "@mdx-js/react": "^3.0.0",
@@ -48,5 +49,11 @@
   },
   "engines": {
     "node": ">=18.0"
+  },
+  "dependencies": {
+    "@docusaurus/theme-mermaid": "^3.8.1",
+    "@fortawesome/fontawesome-svg-core": "^7.0.1",
+    "@fortawesome/free-solid-svg-icons": "^7.0.1",
+    "@fortawesome/react-fontawesome": "^3.0.2"
   }
 }
