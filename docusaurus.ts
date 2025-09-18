@@ -77,6 +77,15 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
   },
 
   themeConfig: {
+    announcementBar: {
+      id: "work_in_progress", // Increment on change
+      content:
+        '🚧 Work in progress. If you have any questions, join our <a href="https://discord.gg/xhNGGrZQja" target="_blank" rel="noopener noreferrer">Discord</a>! 🚧',
+      backgroundColor: "var(--ifm-background-color)",
+      textColor: "var(--ifm-color-primary)",
+      isCloseable: false,
+    },
+
     // TODO: Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
 
