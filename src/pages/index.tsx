@@ -1,12 +1,12 @@
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import HomepageSocials from "@site/src/components/HomepageSocials";
+import HeroImage from "@site/static/img/hero-illustration.svg";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
 import clsx from "clsx";
 import type { ReactNode } from "react";
-import HeroImage from "@site/static/img/hero-illustration.svg";
-import HomepageSocials from "@site/src/components/HomepageSocials";
 
 import styles from "./index.module.css";
 
@@ -53,7 +53,7 @@ function HomepageHeader() {
           <span className={styles.green}>bash</span>
         </code>
         <div className={styles.buttons}>
-          <Link className="button button--lg" to="/docs/introduction">
+          <Link className="button button--lg" to="/docs">
             start now
           </Link>
         </div>
