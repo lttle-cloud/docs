@@ -3,7 +3,7 @@ import type * as PrismNamespace from "prismjs";
 import type { Optional } from "utility-types";
 
 export default function prismIncludeLanguages(
-  PrismObject: typeof PrismNamespace
+  PrismObject: typeof PrismNamespace,
 ): void {
   const {
     themeConfig: { prism },
@@ -41,7 +41,7 @@ export default function prismIncludeLanguages(
       /(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while|deploy|login|machine|service|svc|namespace|ns|volume|certificate|cert)(?=$|[)\s;|&])/;
   } else {
     console.error(
-      "Could not add our custom functions & keywords to prismjs bash component"
+      "Could not add our custom functions & keywords to prismjs bash component",
     );
   }
 

@@ -16,6 +16,16 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
   title: "lttle.cloud docs",
   tagline: "no rewrites. no cold starts. no paying for idle.",
   favicon: "img/favicon.ico",
+  customFields: {
+    brandTitleParts: {
+      lttle: "lttle",
+      dot: ".",
+      cloud: "cloud",
+      suffix: "docs",
+      taglineHtml:
+        "no rewrites.<br /> no cold starts.<br /> no paying for idle.",
+    },
+  },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
