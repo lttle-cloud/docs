@@ -81,8 +81,8 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
       id: "work_in_progress", // Increment on change
       content:
         '🚧 Work in progress. If you have any questions, join our <a href="https://discord.gg/xhNGGrZQja" target="_blank" rel="noopener noreferrer">Discord</a>! 🚧',
-      backgroundColor: "var(--ifm-background-color)",
-      textColor: "var(--ifm-color-primary)",
+      backgroundColor: "var(--ifm-color-primary-darker)",
+      textColor: "var(--ifm-color-primary-lightest)",
       isCloseable: false,
     },
 
