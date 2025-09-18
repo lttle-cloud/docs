@@ -4,127 +4,127 @@
  */
 
 .heroBanner {
-    padding: 4rem 0;
-    display: flex;
-    gap: 4rem;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+  padding: 4rem 0;
+  display: flex;
+  gap: 4rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 
-    background-color: var(--ifm-background-color);
+  background-color: var(--ifm-background-color);
 }
 
 .heroBannerCode {
-    background-color: var(--ifm-color-gray-900);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--ifm-color-gray-500);
-    color: white;
+  background-color: var(--ifm-color-gray-900);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--ifm-color-gray-500);
+  color: white;
 
-    .green {
-        color: var(--color-green-2);
-    }
+  .green {
+    color: var(--color-green-2);
+  }
 
-    .purpleItalic {
-        color: var(--color-purple-2);
-        font-style: italic;
-    }
+  .purpleItalic {
+    color: var(--color-purple-2);
+    font-style: italic;
+  }
 
-    .blue {
-        color: var(--color-blue-3);
-    }
+  .blue {
+    color: var(--color-blue-3);
+  }
 }
 
 .heroBannerContent {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  gap: 2rem;
 
-    h1,
-    p {
-        margin: 0;
-    }
+  h1,
+  p {
+    margin: 0;
+  }
 }
 
 .heroBannerImage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    svg {
-        width: auto;
-        height: auto;
-    }
+  svg {
+    width: auto;
+    height: auto;
+  }
 }
 
 .buttons {
-    display: flex;
+  display: flex;
 }
 
 .brandTitle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1rem;
+  color: var(--ifm-font-color-base);
+  font-weight: 500;
+  font-size: 56px;
+
+  .brandTitleParts {
     display: inline-flex;
     align-items: baseline;
-    gap: 1rem;
-    color: var(--ifm-font-color-base);
-    font-weight: 500;
-    font-size: 56px;
+    font-weight: 900;
+  }
 
-    .brandTitleParts {
-        display: inline-flex;
-        align-items: baseline;
-        font-weight: 900;
-    }
+  .brandLttle {
+    color: var(--ifm-color-primary);
+  }
 
-    .brandLttle {
-        color: var(--ifm-color-primary);
-    }
+  .brandDot {
+    color: var(--ifm-color-gray-600);
+  }
 
-    .brandDot {
-        color: var(--ifm-color-gray-600);
-    }
-
-    .brandCloud {
-        color: var(--ifm-color-emphasis-900);
-    }
+  .brandCloud {
+    color: var(--ifm-color-emphasis-900);
+  }
 }
 
 .brandTagline {
-    color: var(--ifm-font-color-base);
-    font-weight: 500;
-    font-size: 1.5rem;
-    line-height: 1.2;
+  color: var(--ifm-font-color-base);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.2;
 }
 
 @media screen and (max-width: 996px) {
-    .heroBanner {
-        padding: 2rem;
-        gap: 2rem;
+  .heroBanner {
+    padding: 2rem;
+    gap: 2rem;
 
-        svg {
-            max-width: 100%;
-        }
+    svg {
+      max-width: 100%;
     }
+  }
 
-    .heroBannerContent {
-        gap: 1rem;
-    }
+  .heroBannerContent {
+    gap: 1rem;
+  }
 
-    .brandTitle {
-        font-size: 32px;
-    }
+  .brandTitle {
+    font-size: 32px;
+  }
 
-    .brandTagline {
-        font-size: 1rem;
-    }
+  .brandTagline {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    .heroBanner {
-        flex-direction: column-reverse;
-        gap: 2rem;
-    }
+  .heroBanner {
+    flex-direction: column-reverse;
+    gap: 2rem;
+  }
 }

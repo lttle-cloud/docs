@@ -6,162 +6,162 @@
 
 /* You can override the default Infima variables here. */
 :root {
-    --color-pink-0: #ffe8e8;
-    --color-pink-1: #ffcfcf;
-    --color-pink-2: #fcb1b1;
-    --color-pink-3: #ee8787;
-    --color-pink-4: #d04a4a;
-    --color-pink-5: #a42f2f;
-    --color-pink-6: #731414;
+  --color-pink-0: #ffe8e8;
+  --color-pink-1: #ffcfcf;
+  --color-pink-2: #fcb1b1;
+  --color-pink-3: #ee8787;
+  --color-pink-4: #d04a4a;
+  --color-pink-5: #a42f2f;
+  --color-pink-6: #731414;
 
-    --color-red-1: #ff8b7e;
-    --color-red-2: #f24836;
-    --color-red-3: #b42011;
+  --color-red-1: #ff8b7e;
+  --color-red-2: #f24836;
+  --color-red-3: #b42011;
 
-    --color-orange-1: #ffaf60;
-    --color-orange-2: #ea9847;
-    --color-orange-3: #d4742f;
+  --color-orange-1: #ffaf60;
+  --color-orange-2: #ea9847;
+  --color-orange-3: #d4742f;
 
-    --color-yellow-1: #ffe77d;
-    --color-yellow-2: #f5d547;
-    --color-yellow-3: #e4b532;
+  --color-yellow-1: #ffe77d;
+  --color-yellow-2: #f5d547;
+  --color-yellow-3: #e4b532;
 
-    --color-green-1: #d2e79b;
-    --color-green-2: #b1c971;
-    --color-green-3: #90aa5a;
+  --color-green-1: #d2e79b;
+  --color-green-2: #b1c971;
+  --color-green-3: #90aa5a;
 
-    --color-purple-1: #ecc9f2;
-    --color-purple-2: #d7a6e0;
-    --color-purple-3: #b57bbf;
+  --color-purple-1: #ecc9f2;
+  --color-purple-2: #d7a6e0;
+  --color-purple-3: #b57bbf;
 
-    --color-blue-0: #cfe3fb;
-    --color-blue-1: #9ebfe9;
-    --color-blue-2: #6798d5;
-    --color-blue-3: #3e6da7;
-    --color-blue-4: #214776;
-    --color-blue-5: #0d2037;
-    --color-blue-6: #071729;
+  --color-blue-0: #cfe3fb;
+  --color-blue-1: #9ebfe9;
+  --color-blue-2: #6798d5;
+  --color-blue-3: #3e6da7;
+  --color-blue-4: #214776;
+  --color-blue-5: #0d2037;
+  --color-blue-6: #071729;
 
-    --color-gray-0: #fbfcfe;
-    --color-gray-1: #f7f8fd;
-    --color-gray-2: #f3f3f4;
-    --color-gray-3: #e1e4eb;
-    --color-gray-4: #b4bcd1;
-    --color-gray-5: #8a94ac;
-    --color-gray-6: #69748f;
+  --color-gray-0: #fbfcfe;
+  --color-gray-1: #f7f8fd;
+  --color-gray-2: #f3f3f4;
+  --color-gray-3: #e1e4eb;
+  --color-gray-4: #b4bcd1;
+  --color-gray-5: #8a94ac;
+  --color-gray-6: #69748f;
 
-    --color-black-1: #3d4457;
-    --color-black-1-5: #2e3340;
-    --color-black-2: #181b23;
-    --color-black-3: #05070e;
+  --color-black-1: #3d4457;
+  --color-black-1-5: #2e3340;
+  --color-black-2: #181b23;
+  --color-black-3: #05070e;
 
-    --color-teal-0: #e8f7fc;
-    --color-teal-1: #acdfee;
-    --color-teal-2: #78c7dd;
-    --color-teal-3: #419bb4;
-    --color-teal-4: #347493;
-    --color-teal-5: #154a65;
-    --color-teal-6: #082c3f;
+  --color-teal-0: #e8f7fc;
+  --color-teal-1: #acdfee;
+  --color-teal-2: #78c7dd;
+  --color-teal-3: #419bb4;
+  --color-teal-4: #347493;
+  --color-teal-5: #154a65;
+  --color-teal-6: #082c3f;
 
-    --ifm-color-gray-100: var(--color-gray-0);
-    --ifm-color-gray-200: var(--color-gray-1);
-    --ifm-color-gray-300: var(--color-gray-2);
-    --ifm-color-gray-400: var(--color-gray-3);
-    --ifm-color-gray-500: var(--color-gray-4);
-    --ifm-color-gray-600: var(--color-gray-5);
-    --ifm-color-gray-700: var(--color-gray-6);
-    --ifm-color-gray-800: var(--color-black-1);
-    --ifm-color-gray-850: var(--color-black-1-5);
-    --ifm-color-gray-900: var(--color-black-2);
+  --ifm-color-gray-100: var(--color-gray-0);
+  --ifm-color-gray-200: var(--color-gray-1);
+  --ifm-color-gray-300: var(--color-gray-2);
+  --ifm-color-gray-400: var(--color-gray-3);
+  --ifm-color-gray-500: var(--color-gray-4);
+  --ifm-color-gray-600: var(--color-gray-5);
+  --ifm-color-gray-700: var(--color-gray-6);
+  --ifm-color-gray-800: var(--color-black-1);
+  --ifm-color-gray-850: var(--color-black-1-5);
+  --ifm-color-gray-900: var(--color-black-2);
 
-    --ifm-color-primary: var(--color-pink-3);
-    --ifm-color-primary-dark: var(--color-pink-4);
-    --ifm-color-primary-darker: var(--color-pink-5);
-    --ifm-color-primary-darkest: var(--color-pink-6);
-    --ifm-color-primary-light: var(--color-pink-2);
-    --ifm-color-primary-lighter: var(--color-pink-1);
-    --ifm-color-primary-lightest: var(--color-pink-0);
+  --ifm-color-primary: var(--color-pink-3);
+  --ifm-color-primary-dark: var(--color-pink-4);
+  --ifm-color-primary-darker: var(--color-pink-5);
+  --ifm-color-primary-darkest: var(--color-pink-6);
+  --ifm-color-primary-light: var(--color-pink-2);
+  --ifm-color-primary-lighter: var(--color-pink-1);
+  --ifm-color-primary-lightest: var(--color-pink-0);
 
-    --ifm-color-secondary: var(--color-gray-3);
+  --ifm-color-secondary: var(--color-gray-3);
 
-    --ifm-color-secondary-dark: var(--color-gray-4);
-    --ifm-color-secondary-darker: var(--color-gray-5);
-    --ifm-color-secondary-darkest: var(--color-gray-6);
-    --ifm-color-secondary-light: var(--color-gray-2);
-    --ifm-color-secondary-lighter: var(--color-gray-1);
-    --ifm-color-secondary-lightest: var(--color-gray-0);
+  --ifm-color-secondary-dark: var(--color-gray-4);
+  --ifm-color-secondary-darker: var(--color-gray-5);
+  --ifm-color-secondary-darkest: var(--color-gray-6);
+  --ifm-color-secondary-light: var(--color-gray-2);
+  --ifm-color-secondary-lighter: var(--color-gray-1);
+  --ifm-color-secondary-lightest: var(--color-gray-0);
 
-    --ifm-code-font-size: 95%;
-    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
-    --ifm-button-background-color: var(--color-pink-3);
+  --ifm-button-background-color: var(--color-pink-3);
 
-    --ifm-border-radius: 1rem;
-    --ifm-button-border-radius: 1rem;
+  --ifm-border-radius: 1rem;
+  --ifm-button-border-radius: 1rem;
 
-    --ifm-landing-page-section-background-color: var(--ifm-color-gray-200);
-    --ifm-landing-page-feature-card-background-color: white;
-    --ifm-landing-page-feature-card-box-shadow: 8px 8px 0 0
-        var(--ifm-color-gray-400);
+  --ifm-landing-page-section-background-color: var(--ifm-color-gray-200);
+  --ifm-landing-page-feature-card-background-color: white;
+  --ifm-landing-page-feature-card-box-shadow: 8px 8px 0 0
+    var(--ifm-color-gray-400);
 
-    .button {
-        transition: all 0.1s ease-in-out;
-        box-shadow: 5px 5px 0 0 var(--color-black-2);
-    }
+  .button {
+    transition: all 0.1s ease-in-out;
+    box-shadow: 5px 5px 0 0 var(--color-black-2);
+  }
 
-    .button:hover,
-    .button--primary:hover,
-    .button--secondary:hover,
-    .button--outline:hover {
-        transform: translate(3px, 3px);
-        box-shadow: 3px 3px 0 0 var(--color-black-2);
-    }
+  .button:hover,
+  .button--primary:hover,
+  .button--secondary:hover,
+  .button--outline:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 0 var(--color-black-2);
+  }
 
-    .button:active,
-    .button--primary:active,
-    .button--secondary:active,
-    .button--outline:active {
-        transform: translate(5px, 5px);
-        box-shadow: 1px 1px 0 0 var(--color-black-2);
-    }
+  .button:active,
+  .button--primary:active,
+  .button--secondary:active,
+  .button--outline:active {
+    transform: translate(5px, 5px);
+    box-shadow: 1px 1px 0 0 var(--color-black-2);
+  }
 
-    --ifm-font-family-base: "Onest", sans-serif;
-    --ifm-heading-font-family: "Onest", sans-serif;
+  --ifm-font-family-base: "Onest", sans-serif;
+  --ifm-heading-font-family: "Onest", sans-serif;
 }
 
 ::selection {
-    background: var(--color-teal-3);
-    color: #ffffff;
+  background: var(--color-teal-3);
+  color: #ffffff;
 }
 ::-moz-selection {
-    background: var(--color-teal-3);
-    color: #ffffff;
+  background: var(--color-teal-3);
+  color: #ffffff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
-    --ifm-color-primary: var(--color-pink-3);
-    --ifm-color-primary-dark: var(--color-pink-4);
-    --ifm-color-primary-darker: var(--color-pink-5);
-    --ifm-color-primary-darkest: var(--color-pink-6);
-    --ifm-color-primary-light: var(--color-pink-2);
-    --ifm-color-primary-lighter: var(--color-pink-1);
-    --ifm-color-primary-lightest: var(--color-pink-0);
-    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: var(--color-pink-3);
+  --ifm-color-primary-dark: var(--color-pink-4);
+  --ifm-color-primary-darker: var(--color-pink-5);
+  --ifm-color-primary-darkest: var(--color-pink-6);
+  --ifm-color-primary-light: var(--color-pink-2);
+  --ifm-color-primary-lighter: var(--color-pink-1);
+  --ifm-color-primary-lightest: var(--color-pink-0);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
-    --ifm-font-family-base: "Onest", sans-serif;
-    --ifm-heading-font-family: "Onest", sans-serif;
+  --ifm-font-family-base: "Onest", sans-serif;
+  --ifm-heading-font-family: "Onest", sans-serif;
 
-    --ifm-landing-page-section-background-color: var(--ifm-color-gray-850);
-    --ifm-landing-page-feature-card-background-color: var(--ifm-color-gray-800);
-    --ifm-landing-page-feature-card-box-shadow: 8px 8px 0 0
-        var(--ifm-color-gray-700);
+  --ifm-landing-page-section-background-color: var(--ifm-color-gray-850);
+  --ifm-landing-page-feature-card-background-color: var(--ifm-color-gray-800);
+  --ifm-landing-page-feature-card-box-shadow: 8px 8px 0 0
+    var(--ifm-color-gray-700);
 }
 
 .code-block-error-line {
-    background-color: #ff000020;
-    display: block;
-    margin: 0 calc(-1 * var(--ifm-pre-padding));
-    padding: 0 var(--ifm-pre-padding);
-    border-left: 3px solid #ff000080;
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
 }

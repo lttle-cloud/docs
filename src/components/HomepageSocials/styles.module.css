@@ -1,123 +1,123 @@
 .socialsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  gap: 1rem;
+  padding: 4rem 0;
+  width: 100%;
+  background-color: var(--ifm-background-color);
+
+  .header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-
     gap: 1rem;
-    padding: 4rem 0;
+
+    h2 {
+      font-size: 2.25rem;
+      margin: 0;
+      color: var(--ifm-font-color-base);
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--ifm-font-color-secondary);
+      line-height: 1.2;
+    }
+  }
+
+  .container {
+    max-width: 1200px;
     width: 100%;
-    background-color: var(--ifm-background-color);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
 
-    .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
+  .cardsRow {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 
-        h2 {
-            font-size: 2.25rem;
-            margin: 0;
-            color: var(--ifm-font-color-base);
+    .socialCard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.5rem 2rem;
+      border-radius: 1rem;
+      text-decoration: none;
+      width: 195px;
+
+      background-color: var(--ifm-landing-page-section-background-color);
+      box-shadow: var(--ifm-landing-page-feature-card-box-shadow);
+
+      .socialIcon {
+        height: 48px;
+        width: 48px;
+
+        path {
+          transition: all 0.2s ease-in-out;
         }
+      }
 
-        p {
-            font-size: 1rem;
-            margin: 0;
-            color: var(--ifm-font-color-secondary);
-            line-height: 1.2;
+      .socialTitle {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--ifm-font-color-base);
+      }
+
+      &:global(.github):hover {
+        .socialIcon {
+          path {
+            fill: var(--ifm-color-gray-900);
+          }
         }
-    }
+      }
 
-    .container {
-        max-width: 1200px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        padding: 0 1rem;
-    }
-
-    .cardsRow {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-
-        .socialCard {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1.5rem 2rem;
-            border-radius: 1rem;
-            text-decoration: none;
-            width: 195px;
-
-            background-color: var(--ifm-landing-page-section-background-color);
-            box-shadow: var(--ifm-landing-page-feature-card-box-shadow);
-
-            .socialIcon {
-                height: 48px;
-                width: 48px;
-
-                path {
-                    transition: all 0.2s ease-in-out;
-                }
-            }
-
-            .socialTitle {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--ifm-font-color-base);
-            }
-
-            &:global(.github):hover {
-                .socialIcon {
-                    path {
-                        fill: var(--ifm-color-gray-900);
-                    }
-                }
-            }
-
-            &:global(.discord):hover {
-                .socialIcon {
-                    path {
-                        fill: var(--color-purple-2);
-                    }
-                }
-            }
-
-            &:global(.linkedin):hover {
-                .socialIcon {
-                    path {
-                        fill: var(--color-blue-2);
-                    }
-                }
-            }
+      &:global(.discord):hover {
+        .socialIcon {
+          path {
+            fill: var(--color-purple-2);
+          }
         }
+      }
+
+      &:global(.linkedin):hover {
+        .socialIcon {
+          path {
+            fill: var(--color-blue-2);
+          }
+        }
+      }
     }
+  }
 }
 
 @media screen and (max-width: 768px) {
-    .socialsSection {
-        padding: 3rem 1rem;
+  .socialsSection {
+    padding: 3rem 1rem;
 
-        .header {
-            h2 {
-                font-size: 2rem;
-            }
-        }
-
-        .cardsRow {
-            flex-wrap: wrap;
-
-            .socialCard {
-                width: 130px;
-
-                .socialTitle {
-                    font-size: 1.25rem;
-                }
-            }
-        }
+    .header {
+      h2 {
+        font-size: 2rem;
+      }
     }
+
+    .cardsRow {
+      flex-wrap: wrap;
+
+      .socialCard {
+        width: 130px;
+
+        .socialTitle {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
 }
