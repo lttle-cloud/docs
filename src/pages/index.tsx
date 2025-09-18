@@ -52,7 +52,7 @@ function HomepageHeader() {
                         __html: brand?.taglineHtml || siteConfig.tagline,
                     }}
                 />
-                <code>
+                <code className={styles.heroBannerCode}>
                     <span className={styles.green}>curl</span>{" "}
                     <span className={styles.purpleItalic}>-fsSL</span>{" "}
                     <span>https://install.lttle.sh</span> <span>|</span>{" "}
