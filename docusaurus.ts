@@ -86,8 +86,7 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
       isCloseable: false,
     },
 
-    // TODO: Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    image: "img/docusaurus-social-card.png",
 
     colorMode: {
       respectPrefersColorScheme: true,
