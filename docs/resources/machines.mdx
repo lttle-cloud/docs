@@ -160,7 +160,7 @@ In flash mode, the machine will start normally and it will be suspended based on
 
 ##### Flash Mode `timeout`
 
-The timeout property defines the maximum amount of time (in seconds) that the machine will be allowed to run before it is suspended. The timeout starts based on the defined `strategy`.
+The timeout property defines the maximum amount of time (in seconds) that the machine will be allowed to run before it is suspended after the last connection to the machine is dropped (either is disconnected or becomes inactive depending on how connection-tracking is configured).
 
 ```yaml title="robot.lttle.yaml"
 machine:
