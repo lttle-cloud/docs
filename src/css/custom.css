@@ -125,6 +125,10 @@
     box-shadow: 1px 1px 0 0 var(--color-black-2);
   }
 
+  .theme-announcement-bar > div {
+    padding: 5px;
+  }
+
   --ifm-font-family-base: "Onest", sans-serif;
   --ifm-heading-font-family: "Onest", sans-serif;
 }
