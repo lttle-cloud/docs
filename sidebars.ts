@@ -19,10 +19,6 @@ const sidebars: SidebarsConfig = {
       id: "index",
     },
     {
-      type: "doc",
-      id: "placeholder",
-    },
-    {
       type: "category",
       label: "Getting Started",
       collapsed: false,
