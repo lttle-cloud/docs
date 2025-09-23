@@ -47,7 +47,7 @@ export default function HomepageSocials(): ReactNode {
       <div className={styles.container}>
         <div className={styles.header}>
           <Heading as="h2">join the community</Heading>
-          <p>Connect with other developers and get help when you need it.</p>
+          <p>connect with other developers and get help when you need it.</p>
         </div>
         <div className={styles.cardsRow}>
           {socials.map((s, i) => (
