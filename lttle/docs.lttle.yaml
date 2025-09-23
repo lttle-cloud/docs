@@ -27,8 +27,8 @@ service:
     protocol: http
   bind:
     external:
-      # Production is docs.lttle.aifrim.com (for now) where we have dedicated certificate
+      # Production is docs.lttle.cloud (for now) where we have dedicated certificate
       # Preview Environments are reusing the same wildcard certificate from *.eu.lttle.host
-      host: "${{ git.ref == 'main'? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host' }}"
+      host: "${{ git.ref == 'main'? 'docs.lttle.cloud' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host' }}"
       protocol: https
   certificate: "${{ git.ref == 'main'? 'main' : null }}"

@@ -67,7 +67,7 @@ jobs:
       - name: "Setting deployment"
         id: deploymentUrl
         run: |
-          url="https://"$(lttle deploy --eval "git.ref == 'main'? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host'")
+          url="https://"$(lttle deploy --eval "git.ref == 'main'? 'docs.lttle.cloud' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host'")
           name="https://"$(lttle deploy --eval "git.ref == 'main'? git.ref : preview")
           echo "url=$url" >> $GITHUB_OUTPUT
           echo "name=$name" >> $GITHUB_OUTPUT

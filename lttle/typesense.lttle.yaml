@@ -78,7 +78,7 @@ service:
     protocol: http
   bind:
     external:
-      host: "${{ git.ref == 'main'? 'docs-search.lttle.aifrim.com' : 'docs-search-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host' }}"
+      host: "${{ git.ref == 'main'? 'docs-search.lttle.cloud' : 'docs-search-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host' }}"
       protocol: https
   certificate: "${{ git.ref == 'main'? 'cert-docs' : null }}"
 ---

@@ -2,8 +2,8 @@ certificate:
   namespace: docs-main
   name: main
   domains:
-    - docs.lttle.aifrim.com
-    - docs-search.lttle.aifrim.com
+    - docs.lttle.cloud
+    - docs-search.lttle.cloud
   issuer:
     auto:
       provider: letsencrypt
