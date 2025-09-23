@@ -44,21 +44,21 @@ const FeatureList1: FeatureItem[] = [
 
 const FeatureList2: FeatureItem[] = [
   {
+    title: "community",
+    Svg: require("@site/static/img/chunk/users.svg").default,
+    description: (
+      <>
+        a growing network of builders, developers, and founders who believe cloud infrastructure should be simple, fair, and fast.
+      </>
+    ),
+  },
+  {
     title: "secure",
     Svg: require("@site/static/img/chunk/shield-check.svg").default,
     description: (
       <>
         lttle.cloud is secure and reliable, with a focus on
         security and reliability.
-      </>
-    ),
-  },
-  {
-    title: "community",
-    Svg: require("@site/static/img/chunk/users.svg").default,
-    description: (
-      <>
-        a growing network of builders, developers, and founders who believe cloud infrastructure should be simple, fair, and fast.
       </>
     ),
   },
