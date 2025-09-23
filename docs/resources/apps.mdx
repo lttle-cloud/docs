@@ -1,11 +1,396 @@
 ---
 sidebar_position: 1
 ---
+import Mermaid from '@theme/Mermaid';
+import ResourceNameValidation from '../common/resource-name-validation.md';
 
 # Apps
 
-:::note Work in Progress
+Apps provide a simplified way to deploy and manage applications on lttle.cloud by orchestrating a single machine with optional service exposure. They offer a streamlined developer experience by combining machine and service configuration into a single resource, automatically managing the underlying infrastructure.
 
-This section is a work in progress.
+Think of Apps as a convenient wrapper around machines that handles service creation and domain allocation for you, making it easier to deploy web applications and APIs.
+
+If you want to know how to deploy an app, check [Building & Deploying > Building](../building-and-deploying/building.md) and [Building & Deploying > Deploying](../building-and-deploying/deploying.md).
+
+## Configuration
+
+| Properties                              |                Type                 | Required |  Default  |
+| :-------------------------------------- | :---------------------------------: | :------: | :-------: |
+| `namespace`                             |              `string`               |          | `default` |
+| [`name`](#name)                         |              `string`               |    ✓     |           |
+| [`tags`](#tags)                         |           `array<string>`           |          |           |
+| [`image`](#image)                       |              `string`               |    ✓     |           |
+| [`resources`](#resources)               |              `object`               |    ✓     |           |
+| [`expose`](#expose)                     |              `object`               |          |           |
+| [`mode`](#mode)                         |        `object` \| `regular`        |          | `regular` |
+| [`restart-policy`](#restart-policy)     | `always` \| `on-failure` \| `never` |          | `always`  |
+| [`environment`](#environment-variables) |              `object`               |          |           |
+| [`volumes`](#volumes)                   |           `array<object>`           |          |           |
+| [`command`](#command)                   |           `array<string>`           |          |           |
+| [`depends-on`](#depends-on)             |           `array<object>`           |          |           |
+
+If you want to know more about namespaces, check [Building & Deploying > Namespaces](../building-and-deploying/namespaces.md)
+
+### Name
+
+The name is the unique identifier for your app within a namespace. It is used as the name for the underlying machine and to generate service names.
+
+<ResourceNameValidation />
+
+```yaml title="webapp.lttle.yaml"
+app:
+  name: web-frontend
+```
+
+### Tags
+
+Tags are used to organize and categorize resources. They can be any valid UTF-8 string and can be used to filter resources in the [Web Console](../monitoring/web-console.md). Tags applied to the app are automatically inherited by the managed machine and services.
+
+```yaml title="webapp.lttle.yaml"
+app:
+  tags:
+    - frontend
+    - production
+    - web
+```
+
+### Image
+
+The OCI-compliant container image to run. This can be any valid image from a container registry.
+
+```yaml title="webapp.lttle.yaml"
+app:
+  image: nginx:1.21
+```
+
+### Resources
+
+The compute resources allocated to the machine. This follows the same structure as [machine resources](./machines.mdx#resources).
+
+| Properties          | Type                                    | Required |
+| :------------------ | :-------------------------------------- | :------: |
+| [`cpu`](#cpu)       | `int` (min: `1` max: `24`)              |    ✓     |
+| [`memory`](#memory) | `int` mebibytes (min: `64` max: `1024`) |    ✓     |
+
+```yaml title="webapp.lttle.yaml"
+app:
+  resources:
+    cpu: 2
+    memory: 512
+```
+
+### Expose
+
+The expose configuration defines how your app is made accessible through services. Each key in the expose object creates a separate service.
+
+```yaml title="webapp.lttle.yaml"
+app:
+  expose:
+    web:
+      port: 8080
+      external:
+        protocol: https
+    api:
+      port: 3000
+      internal: {}
+```
+
+Each expose entry has the following structure:
+
+| Properties                              |                Type                 | Required |
+| :-------------------------------------- | :---------------------------------: | :------: |
+| [`port`](#expose-port)                  |               `int`                 |    ✓     |
+| [`external`](#expose-external)          |              `object`               |          |
+| [`internal`](#expose-internal)          |              `object`               |          |
+| [`connection-tracking`](#connection-tracking) |        `object`               |          |
+
+:::info
+
+Each expose entry must have either `external` or `internal` configured, but not both.
+
+:::
+
+#### Expose Port
+
+The port number that your application listens on inside the container.
+
+#### Expose External
+
+Configuration for external (internet-facing) services:
+
+| Properties  |                Type                 | Required |  Default  |
+| :---------- | :---------------------------------: | :------: | :-------: |
+| `protocol`  | `http` \| `https` \| `tls`          |    ✓     |           |
+| `host`      |              `string`               |          | *auto-generated* |
+| `port`      |               `int`                 |          | *protocol default <br /> (or fallback on container port)* |
+
+```yaml title="webapp.lttle.yaml"
+app:
+  expose:
+    web:
+      port: 8080
+      external:
+        protocol: https
+        host: myapp.example.com
+        port: 443
+```
+
+#### Expose Internal
+
+Configuration for internal (tenant-only) services:
+
+| Properties  |                Type                 | Required | Default |
+| :---------- | :---------------------------------: | :------: | :-----: |
+| `port`      |               `int`                 |          | *container port* |
+
+```yaml title="webapp.lttle.yaml"
+app:
+  expose:
+    api:
+      port: 3000
+      internal:
+        port: 3000
+```
+
+### Mode
+
+The execution mode for the machine. This follows the same structure as [machine mode](./machines.mdx#mode).
+
+```yaml title="webapp.lttle.yaml"
+app:
+  mode: regular
+```
+
+For flash mode configuration:
+
+```yaml title="webapp.lttle.yaml"
+app:
+  mode:
+    flash:
+      strategy: first-listen
+      timeout: 300
+```
+
+### Restart Policy
+
+How the machine should behave when it exits. This follows the same options as [machine restart policy](./machines.mdx#restart-policy).
+
+| Policy       | Description                                                             |
+| ------------ | ----------------------------------------------------------------------- |
+| `always`     | Always restart the machine if it exits                                  |
+| `on-failure` | Restart the machine only if it exits with a non-zero exit code.         |
+| `never`      | Do not restart the machine if it exits event with a non-zero exit code. |
+
+```yaml title="webapp.lttle.yaml"
+app:
+  restart-policy: always
+```
+
+### Environment Variables
+
+Environment variables for the application. This follows the same structure as [machine environment](./machines.mdx#environment-variables).
+
+```yaml title="webapp.lttle.yaml"
+app:
+  environment:
+    NODE_ENV: production
+    API_URL: https://api.example.com
+    PORT: "8080"
+```
+
+### Volumes
+
+Volume mounts for persistent storage. This follows the same structure as [machine volumes](./machines.mdx#volumes).
+
+```yaml title="webapp.lttle.yaml"
+app:
+  volumes:
+    - name: app-data
+      path: /data
+    - name: logs
+      path: /var/log/app
+```
+
+### Command
+
+The command to execute in the container. This follows the same structure as [machine command](./machines.mdx#command).
+
+```yaml title="webapp.lttle.yaml"
+app:
+  command:
+    - node
+    - server.js
+```
+
+### Depends On
+
+Dependencies on other machines. This follows the same structure as [machine dependencies](./machines.mdx#depends-on).
+
+```yaml title="webapp.lttle.yaml"
+app:
+  depends-on:
+    - name: database
+    - name: redis
+      namespace: cache
+```
+
+## Complete Example
+
+Here's a complete example of an app configuration:
+
+```yaml title="webapp.lttle.yaml"
+app:
+  name: web-frontend
+  namespace: production
+  tags:
+    - frontend
+    - web
+  image: nginx:1.21
+  resources:
+    cpu: 2
+    memory: 512
+  environment:
+    NODE_ENV: production
+    PORT: "8080"
+  command:
+    - nginx
+    - -g
+    - daemon off;
+  mode: regular
+  restart-policy: always
+  expose:
+    web:
+      port: 8080
+      external:
+        protocol: https
+        host: myapp.example.com
+    api:
+      port: 3000
+      internal: {}
+  volumes:
+    - name: app-data
+      path: /data
+  depends-on:
+    - name: database
+      namespace: data
+```
+
+## How Apps Work
+
+Apps simplify application deployment by automatically managing machines and services for you. When you create an app, the controller:
+
+1. **Creates a Machine**: Uses your app configuration to create a single machine with the specified image, resources, and settings
+2. **Generates Services**: For each entry in the `expose` configuration, creates a corresponding service to handle traffic routing
+3. **Manages Lifecycle**: Automatically updates the machine and services when you change the app configuration
+4. **Handles Cleanup**: When you delete the app, automatically removes the associated machine and services
+
+### Machine Integration
+
+The app controller creates a machine with the same name as the app, using these mappings:
+
+- `app.image` → `machine.image`
+- `app.resources` → `machine.resources` 
+- `app.environment` → `machine.environment`
+- `app.command` → `machine.command`
+- `app.volumes` → `machine.volumes`
+- `app.mode` → `machine.mode`
+- `app.restart-policy` → `machine.restart-policy`
+- `app.depends-on` → `machine.depends-on`
+- `app.tags` → `machine.tags` (with additional ownership tag)
+
+### Service Generation
+
+For each key in the `expose` configuration, the app controller creates a service named `{app-name}-{expose-key}`. For example:
+
+```yaml
+app:
+  name: my-app
+  expose:
+    web:
+      port: 8080
+      external:
+        protocol: https
+    api:
+      port: 3000
+      internal: {}
+```
+
+This creates two services:
+- `my-app-web` (external HTTPS service)
+- `my-app-api` (internal service)
+
+Both services target the `my-app` machine on their respective ports.
+
+### Domain Allocation
+
+For external services, if no `host` is specified, the system automatically generates a domain using the pattern:
+```
+{app-name}--{expose-key}--{tenant}.eu.lttle.host
+```
+
+### Configuration Updates
+
+When you update an app:
+- Machine configuration changes trigger a machine update (which may restart the machine depending on what changed)
+- Service configuration changes update the corresponding services
+- Adding/removing expose entries creates/deletes the corresponding services
+
+## Best Practices
+
+### Expose Configuration
+
+Use descriptive names for your expose entries:
+
+```yaml
+app:
+  expose:
+    web:        # Main website
+      port: 80
+      external:
+        protocol: https
+    admin:      # Admin interface  
+      port: 8080
+      external:
+        protocol: https
+        host: admin.myapp.com
+    metrics:    # Internal metrics
+      port: 9090
+```
+
+### Resource Planning
+
+Configure appropriate resources based on your application needs:
+
+```yaml
+app:
+  resources:
+    cpu: 1      # 1 vCPU cores
+    memory: 256 # 256MB RAM
+```
+
+### Environment Management
+
+Use environment variables to configure your application:
+
+```yaml
+app:
+  environment:
+    NODE_ENV: production
+    DATABASE_URL: postgresql://user:pass@db:5432/myapp
+    REDIS_URL: redis://cache:6379
+```
+
+### Health Considerations
+
+Since apps create a single machine, ensure your application:
+
+- Starts up reliably and quickly
+- Handles graceful shutdowns properly
+- Uses appropriate restart policies for your use case
+- Exposes health check endpoints when using flash mode
+
+:::info
+
+Apps are ideal for simple applications that don't require complex orchestration. For more advanced scenarios requiring multiple machines, custom networking, or complex dependencies, consider using machines and services directly.
 
 :::
