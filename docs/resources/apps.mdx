@@ -19,7 +19,8 @@ If you want to know how to deploy an app, check [Building & Deploying > Building
 | `namespace`                             |              `string`               |          | `default` |
 | [`name`](#name)                         |              `string`               |    ✓     |           |
 | [`tags`](#tags)                         |           `array<string>`           |          |           |
-| [`image`](#image)                       |              `string`               |    ✓     |           |
+| [`image`](#image)                       |              `string`               |    ✓*    |           |
+| [`build`](#build)                       |              `object`               |          |           |
 | [`resources`](#resources)               |              `object`               |    ✓     |           |
 | [`expose`](#expose)                     |              `object`               |          |           |
 | [`mode`](#mode)                         |        `object` \| `regular`        |          | `regular` |
@@ -28,6 +29,12 @@ If you want to know how to deploy an app, check [Building & Deploying > Building
 | [`volumes`](#volumes)                   |           `array<object>`           |          |           |
 | [`command`](#command)                   |           `array<string>`           |          |           |
 | [`depends-on`](#depends-on)             |           `array<object>`           |          |           |
+
+:::note Image vs Build
+
+Either `image` or `build` is required. If `build` is specified, the image will be built automatically during deployment and `image` is not needed.
+
+:::
 
 If you want to know more about namespaces, check [Building & Deploying > Namespaces](../building-and-deploying/namespaces.md)
 
@@ -62,6 +69,59 @@ The OCI-compliant container image to run. This can be any valid image from a con
 app:
   image: nginx:1.21
 ```
+
+### Build
+
+The build configuration allows you to automatically build container images during deployment instead of providing a pre-built image. This uses [Nixpacks](https://nixpacks.com) for automatic language detection and building, or Docker for custom builds.
+
+For detailed information about building, see [Building & Deploying > Building](../building-and-deploying/building.md).
+
+#### Auto Build
+
+The simplest option - automatically detects your application type:
+
+```yaml title="webapp.lttle.yaml"
+app:
+  build: auto
+```
+
+#### Build Options
+
+Provides more control over the build process:
+
+```yaml title="webapp.lttle.yaml"
+app:
+  build:
+    options:
+      dir: ./src           # Build directory (default: ".")
+      name: my-web-app     # Image name (default: auto-generated)
+      tag: v2.1.0         # Image tag (default: "latest")
+      image: myregistry.com/my-web-app:v2.1.0  # Full image reference (overrides everything else)
+```
+
+#### Docker Build
+
+For projects with existing Dockerfiles:
+
+```yaml title="webapp.lttle.yaml"
+app:
+  build:
+    docker:
+      context: .                    # Build context (default: ".")
+      dockerfile: Dockerfile.prod   # Dockerfile path (default: "Dockerfile")
+      name: my-web-app             # Image name (default: auto-generated)
+      tag: production              # Image tag (default: "latest")
+      image: myregistry.com/my-web-app:v1.0.0  # Full image reference (overrides everything else)
+      args:                        # Build arguments
+        NODE_ENV: production
+        API_URL: https://api.example.com
+```
+
+:::info
+
+When using `build`, the CLI will automatically build and push the image during deployment, then replace the `build` configuration with the resulting image reference.
+
+:::
 
 ### Resources
 
