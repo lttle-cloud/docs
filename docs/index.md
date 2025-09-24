@@ -12,7 +12,7 @@ Influenced by the [Unikraft Cloud](https://unikraft.cloud/), the way it achieves
 
 lttle.cloud is not just a cloud platform &mdash; it is a fully open source AGPL-3.0 project. This means that developers can inspect, modify, and enhance the platform to suit their needs.
 
-While lttle.cloud can be used as a managed platform, it is also designed to be self-hosted. This means you can deploy the entire stack on your own infrastructure &mdash; wether on bare metal, private cloud or on other public clouds &mdash; with the same capabilities as the managed offering.
+While lttle.cloud can be used as a managed platform, it is also self-hostable. This means you can deploy the entire stack on your own infrastructure &mdash; wether on bare metal, private cloud or on other public clouds &mdash; with the same capabilities as the managed offering.
 
 ## OCI-compliant
 
@@ -36,4 +36,4 @@ One of the main differentiators of lttle.cloud is its ability to start machines 
 
 ## Cost-effectiveness
 
-lttle.cloud is designed to be cost-efficient. By optimizing resource allocation and minimizing overhead, it ensures that you only pay for what you use. By using lttle.clouds snapshotting features you get to pay for the exact resources your application consumes, without any hidden costs.
+lttle.cloud is cost-efficient. By optimizing resource allocation and minimizing overhead, it ensures that you only pay for what you use. By using lttle.clouds snapshotting features you get to pay for the exact resources your application consumes, without any hidden costs.

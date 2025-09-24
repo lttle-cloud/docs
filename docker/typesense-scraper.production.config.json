@@ -2,7 +2,7 @@
   "index_name": "lttle-cloud-docs",
   "start_urls": [
     {
-      "url": "https://docs.lttle.aifrim.com/"
+      "url": "https://docs.lttle.cloud/"
     }
   ],
   "selectors": {

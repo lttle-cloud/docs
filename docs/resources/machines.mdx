@@ -17,7 +17,8 @@ If you want to know how to deploy a machine you can check [Building & Deploying 
 | `namespace`                             |              `string`               |          | `default` |
 | [`name`](#name)                         |              `string`               |    ✓     |           |
 | [`tags`](#tags)                         |           `array<string>`           |          |           |
-| [`image`](#image)                       |              `string`               |    ✓     |           |
+| [`image`](#image)                       |              `string`               |    ✓*    |           |
+| [`build`](#build)                       |              `object`               |          |           |
 | [`depends-on`](#depends-on)             |           `array<object>`           |          |           |
 | [`resources`](#resources)               |              `object`               |    ✓     |           |
 | [`mode`](#mode)                         |        `object` \| `regular`        |    ✓     |           |
@@ -25,6 +26,12 @@ If you want to know how to deploy a machine you can check [Building & Deploying 
 | [`environment`](#environment-variables) |              `object`               |          |           |
 | [`volume`](#volumes)                    |              `object`               |          |           |
 | [`command`](#command)                   |               `array`               |          |           |
+
+:::note Image vs Build
+
+Either `image` or `build` is required. If `build` is specified, the image will be built automatically during deployment and `image` is not needed.
+
+:::
 
 If you want to know more about namespaces, check [Building & Deploying &gt; Namespaces](../building-and-deploying/namespaces.md)
 
@@ -59,6 +66,58 @@ The image is an OCI-compliant image identifier that specifies the container imag
 machine:
   image: future/terminator:800
 ```
+
+### Build
+
+The build configuration allows you to automatically build container images during deployment instead of providing a pre-built image. This uses [Nixpacks](https://nixpacks.com) for automatic language detection and building, or Docker for custom builds.
+
+For detailed information about building, see [Building & Deploying > Building](../building-and-deploying/building.md).
+
+#### Auto Build
+
+The simplest option - automatically detects your application type:
+
+```yaml title="robot.lttle.yaml"
+machine:
+  build: auto
+```
+
+#### Build Options
+
+Provides more control over the build process:
+
+```yaml title="robot.lttle.yaml"
+machine:
+  build:
+    options:
+      dir: ./backend       # Build directory (default: ".")
+      name: my-backend     # Image name (default: auto-generated)
+      tag: v1.0.0         # Image tag (default: "latest")
+      image: myregistry.com/my-app:v1.0.0  # Full image reference (overrides everything else)
+```
+
+#### Docker Build
+
+For projects with existing Dockerfiles:
+
+```yaml title="robot.lttle.yaml"
+machine:
+  build:
+    docker:
+      context: .                    # Build context (default: ".")
+      dockerfile: Dockerfile.prod   # Dockerfile path (default: "Dockerfile")
+      name: my-docker-app          # Image name (default: auto-generated)
+      tag: production              # Image tag (default: "latest")
+      image: myregistry.com/my-app:v1.0.0  # Full image reference (overrides everything else)
+      args:                        # Build arguments
+        NODE_ENV: production
+```
+
+:::info
+
+When using `build`, the CLI will automatically build and push the image during deployment, then replace the `build` configuration with the resulting image reference.
+
+:::
 
 ### Depends on
 

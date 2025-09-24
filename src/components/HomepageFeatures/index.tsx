@@ -15,7 +15,7 @@ const FeatureList1: FeatureItem[] = [
     Svg: require("@site/static/img/chunk/folder-open.svg").default,
     description: (
       <>
-        lttle.cloud is designed to be lightweight and efficient, with a focus on
+        lttle.cloud is lightweight and efficient, with a focus on
         performance and scalability.
       </>
     ),
@@ -35,7 +35,7 @@ const FeatureList1: FeatureItem[] = [
     Svg: require("@site/static/img/chunk/checkmark.svg").default,
     description: (
       <>
-        lttle.cloud is designed to be simple and easy to use, with a focus on
+        lttle.cloud is simple and easy to use, with a focus on
         usability and accessibility.
       </>
     ),
@@ -44,22 +44,21 @@ const FeatureList1: FeatureItem[] = [
 
 const FeatureList2: FeatureItem[] = [
   {
-    title: "secure",
-    Svg: require("@site/static/img/chunk/shield-check.svg").default,
-    description: (
-      <>
-        lttle.cloud is designed to be secure and reliable, with a focus on
-        security and reliability.
-      </>
-    ),
-  },
-  {
     title: "community",
     Svg: require("@site/static/img/chunk/users.svg").default,
     description: (
       <>
-        lttle.cloud is designed to be high performance, with a focus on
-        performance and scalability.
+        a growing network of builders, developers, and founders who believe cloud infrastructure should be simple, fair, and fast.
+      </>
+    ),
+  },
+  {
+    title: "secure",
+    Svg: require("@site/static/img/chunk/shield-check.svg").default,
+    description: (
+      <>
+        lttle.cloud is secure and reliable, with a focus on
+        security and reliability.
       </>
     ),
   },
@@ -68,8 +67,7 @@ const FeatureList2: FeatureItem[] = [
     Svg: require("@site/static/img/chunk/arrow-trend-up.svg").default,
     description: (
       <>
-        lttle.cloud is designed to be high performance, with a focus on
-        performance and scalability.
+        lttle.cloud offers blazing-fast, cold-start-free infrastructure that runs any Docker image in under 10ms
       </>
     ),
   },

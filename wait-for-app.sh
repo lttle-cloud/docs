@@ -13,7 +13,7 @@ if [ -z "${GITHUB_HEAD_REF+x}" ]; then
   export GITHUB_HEAD_REF
 fi
 
-docsURL="https://"$(lttle deploy --eval "git.ref == 'main' ? 'docs.lttle.aifrim.com' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host'")
+docsURL="https://"$(lttle deploy --eval "git.ref == 'main' ? 'docs.lttle.cloud' : 'docs-' + env.GITHUB_HEAD_REF.toSlug()  + '-lttle-aifrim.eu.lttle.host'")
 namespace="docs-"$(lttle deploy --eval "git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch'")
 
 isUp "$namespace" "nginx-docs" "$docsURL" 300 1
