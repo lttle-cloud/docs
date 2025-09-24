@@ -18,7 +18,6 @@ If you want to know how to deploy a a service [Building and Deploying &gt; Deplo
 | [`tags`](#tags)               | `array<string>` |          |
 | [`bind`](#bindings)           | `object`        |    ✓     |
 | [`target`](#target)           | `object`        |    ✓     |
-| [`certificate`](#certificate) | `string`        |          |
 
 If you want to know more about namespaces, check [Building and Deploying &gt; Namespaces](../building-and-deploying/namespaces.md)
 
@@ -143,12 +142,6 @@ service:
       protocol: https
 ```
 
-:::tip
-
-If you want to use `https` or `tls` you need to provide a valid certificate using the [`certificate property`](#certificate) and you need to also define a [certificate resource](./certificates.mdx).
-
-:::
-
 ### Target
 
 It defines what [machine](./machines.mdx) the service is pointing to.
@@ -196,20 +189,18 @@ References:
 
 This connection tracking strategy keeps the machine `ready` as long as there is traffic to the service. It is useful for workloads that do not use persistent connections, such as HTTP/1.1 without keep-alive.
 
-### Certificate
-
-The certificate property defines the name of the [certificate resource](./certificates.mdx) that will be used to secure the service. It is required if the service is using `https` or `tls` as protocol.
-
-```yaml title="robot-service.lttle.yaml"
-service:
-  certificate: terminator-cert
-```
-
 ## Domains and DNS
 
 For development, research and testing feel free to use the `eu.lttle.host` sub-domain. For production workloads, you should use your own domain and [configure the DNS records accordingly](#configure-dns).
 
 We are maintaining the `eu.lttle.host` sub-domain and you can use it for free. We are using a wildcard certificate for it, so you don't need to worry about certificates during the early stages of your project.
+
+:::tip
+
+If you want to use `https` or `tls` with your custom domain, you also need to create a [certificate resource](./certificates.mdx) with the same domain. This resource will configure TLS termination with a valid certificate matching your domain.
+
+:::
+
 
 ### Configure DNS
 

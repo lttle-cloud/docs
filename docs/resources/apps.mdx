@@ -195,6 +195,59 @@ app:
         port: 443
 ```
 
+### Using Custom Domains
+
+For development and testing, lttle.cloud automatically generates domains using the pattern `{app-name}--{expose-key}--{tenant}.eu.lttle.host` with free wildcard SSL certificates.
+
+For production workloads, you can specify custom domains using the `host` property:
+
+```yaml title="webapp.lttle.yaml"
+app:
+  expose:
+    web:
+      port: 80
+      external:
+        protocol: https
+        host: www.mycompany.com
+```
+
+#### DNS Configuration
+
+To use a custom domain, configure your DNS records to point to lttle.cloud:
+
+| Region        | IP Address      |
+| :------------ | :-------------- |
+| `eu` (Europe) | `46.105.65.138` |
+
+Create an `A` record in your DNS provider pointing your domain to the appropriate IP address.
+
+#### SSL/TLS Certificates
+
+When using custom domains with `https` or `tls` protocol, you need to create a [certificate resource](./certificates.mdx) with the same domain:
+
+```yaml title="webapp.lttle.yaml"
+# Your app configuration
+app:
+  name: my-app
+  expose:
+    web:
+      port: 80
+      external:
+        protocol: https
+        host: www.mycompany.com
+---
+# Certificate for your custom domain  
+certificate:
+  name: my-app-cert
+  domains:
+    - www.mycompany.com
+  issuer:
+    auto:
+      provider: letsencrypt
+```
+
+This automatically provisions and manages SSL/TLS certificates for your custom domain.
+
 #### Expose Internal
 
 Configuration for internal (tenant-only) services:
