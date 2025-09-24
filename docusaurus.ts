@@ -142,7 +142,7 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
             },
             {
               label: "Tutorials",
-              to: "https://www.youtube.com/@awesome-coding/videos",
+              to: "/docs/getting-started/deploying-an-existing-app",
             },
           ],
         },
