@@ -66,15 +66,15 @@ There are two main types of issuers you can configure:
 
 The auto issuer automatically handles the issuance and renewal of certificates. It only works now with [Let's Encrypt](https://letsencrypt.org/) (both `staging` and `production` environments).
 
-| Property                | Type                                 | Required |      Default      |
-| ----------------------- | ------------------------------------ | :------: | :---------------: |
-| [`email`](#email)       | `string`                             |    ✓     | Tenant user email |
-| [`provider`](#provider) | `letsencrypt \| letsencrypt-staging` |    ✓     |                   |
-| [`renewal`](#renewal)   | `object`                             |          |                   |
+| Property                | Type                                 | Required |
+| ----------------------- | ------------------------------------ | :------: |
+| [`email`](#email)       | `string`                             |    ✓     |
+| [`provider`](#provider) | `letsencrypt \| letsencrypt-staging` |    ✓     |
+| [`renewal`](#renewal)   | `object`                             |          |
 
 ##### Email
 
-The email is used by Let's Encrypt to notify you about important information regarding your certificates, such as expiration notices and security alerts.
+The email is used by Let's Encrypt to notify you about important information regarding your certificates, such as expiration notices and security alerts. It must be set.
 
 ```yaml title="robot-service.lttle.yaml"
 certificate:
