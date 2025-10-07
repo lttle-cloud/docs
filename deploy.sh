@@ -4,10 +4,6 @@ set -e
 
 source ./deploy/utilities.bash
 
-if [[ -f .env.production ]]; then
-  export $(xargs < .env.production)
-fi
-
 if [ -z "${GITHUB_HEAD_REF+x}" ]; then
   GITHUB_HEAD_REF=$(git rev-parse --abbrev-ref HEAD)
   export GITHUB_HEAD_REF
