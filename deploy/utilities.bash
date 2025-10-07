@@ -50,8 +50,6 @@ deployTypeSense() {
 
     echo "Deploying only the typesense-search"
     lttle deploy ./lttle/typesense.lttle.yaml
-
-    restartMachines "$ns"
 }
 
 restartMachines() {

@@ -57,13 +57,6 @@ jobs:
         run: |
           lttle login --api "https://eu.lttle.cloud" "$LTTLE_JWT_TOKEN"
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 22.18.0
-      - name: "Setting up environment variables into .env.production file"
-        run: |
-          echo "TYPESENSE_API_KEY='$TYPESENSE_API_KEY'" >> .env.production
-
       - name: "Setting deployment"
         id: deploymentUrl
         run: |
@@ -77,12 +70,18 @@ jobs:
       # https://docs.docker.com/build/ci/github-actions/
       - name: "Deploying the application"
         run: ./deploy.sh
+        env:
+          TYPESENSE_API_KEY: ${{ vars.TYPESENSE_API_KEY }}
 
         # NOTE: This has been added because we need to wait for the application to be fully up before proceeding
         # The status of the machine does not reflect the readiness of the service + machine to receive traffic
         # And we want the scraper to actually scrape the documentation post-deployment & readiness
       - name: "Waiting for the application to be ready"
         run: ./wait-for-app.sh
+
+        # IMPORTANT: Why do we need to wait for 5s here?
+      - name: "Waiting for 30s for typesense-scraper to be ready"
+        run: sleep 30s
 
       - name: "Restarting the application"
         run: ./restart.sh scraper
