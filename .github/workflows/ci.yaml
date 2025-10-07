@@ -79,7 +79,7 @@ jobs:
       - name: "Waiting for the application to be ready"
         run: ./wait-for-app.sh
 
-        # IMPORTANT: Why do we need to wait for 5s here?
+        # IMPORTANT: Why do we need to wait for 30s here?
       - name: "Waiting for 30s for typesense-scraper to be ready"
         run: sleep 30s
 
