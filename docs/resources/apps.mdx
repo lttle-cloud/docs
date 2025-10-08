@@ -127,10 +127,10 @@ When using `build`, the CLI will automatically build and push the image during d
 
 The compute resources allocated to the machine. This follows the same structure as [machine resources](./machines.mdx#resources).
 
-| Properties          | Type                                    | Required |
-| :------------------ | :-------------------------------------- | :------: |
-| [`cpu`](#cpu)       | `int` (min: `1` max: `24`)              |    ✓     |
-| [`memory`](#memory) | `int` mebibytes (min: `64` max: `1024`) |    ✓     |
+| Properties | Type                                    | Required |
+| :--------- | :-------------------------------------- | :------: |
+| [`cpu`]    | `int` (min: `1` max: `24`)              |    ✓     |
+| [`memory`] | `int` mebibytes (min: `64` max: `1024`) |    ✓     |
 
 ```yaml title="webapp.lttle.yaml"
 app:
@@ -157,12 +157,12 @@ app:
 
 Each expose entry has the following structure:
 
-| Properties                              |                Type                 | Required |
-| :-------------------------------------- | :---------------------------------: | :------: |
-| [`port`](#expose-port)                  |               `int`                 |    ✓     |
-| [`external`](#expose-external)          |              `object`               |          |
-| [`internal`](#expose-internal)          |              `object`               |          |
-| [`connection-tracking`](#connection-tracking) |        `object`               |          |
+| Properties                     |                Type                 | Required |
+| :------------------------------| :---------------------------------: | :------: |
+| [`port`](#expose-port)         |               `int`                 |    ✓     |
+| [`external`](#expose-external) |              `object`               |          |
+| [`internal`](#expose-internal) |              `object`               |          |
+| `connection-tracking`          |              `object`               |          |
 
 :::info
 
