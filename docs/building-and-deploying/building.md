@@ -42,21 +42,21 @@ machine:
   name: my-app
   build:
     options:
-      dir: ./backend       # Build directory (default: ".")
-      name: my-backend     # Image name (default: auto-generated)
-      tag: v1.0.0         # Image tag (default: "latest")
-      image: custom/name   # Full image reference (overrides name/tag)
+      dir: ./backend # Build directory (default: ".")
+      name: my-backend # Image name (default: auto-generated)
+      tag: v1.0.0 # Image tag (default: "latest")
+      image: custom/name # Full image reference (overrides name/tag)
   resources:
     cpu: 1
     memory: 256
 ```
 
-| Property | Type     | Default | Description                                    |
-|:---------|:---------|:--------|:-----------------------------------------------|
-| `dir`    | `string` | `"."`   | Directory to build from                        |
-| `name`   | `string` | *auto*  | Image name (generates UUID if not specified)  |
-| `tag`    | `string` | `"latest"` | Image tag                                   |
-| `image`  | `string` | *auto*  | Full image reference (overrides all other options) |
+| Property | Type     | Default    | Description                                        |
+| :------- | :------- | :--------- | :------------------------------------------------- |
+| `dir`    | `string` | `"."`      | Directory to build from                            |
+| `name`   | `string` | _auto_     | Image name (generates UUID if not specified)       |
+| `tag`    | `string` | `"latest"` | Image tag                                          |
+| `image`  | `string` | _auto_     | Full image reference (overrides all other options) |
 
 ### Docker Build
 
@@ -67,12 +67,12 @@ machine:
   name: my-app
   build:
     docker:
-      context: .                    # Build context (default: ".")
-      dockerfile: Dockerfile.prod   # Dockerfile path (default: "Dockerfile")
-      name: my-docker-app          # Image name (default: auto-generated)
-      tag: production              # Image tag (default: "latest")
-      image: myregistry.com/my-app:v1.0.0  # Full image reference (overrides name/tag)
-      args:                        # Build arguments
+      context: . # Build context (default: ".")
+      dockerfile: Dockerfile.prod # Dockerfile path (default: "Dockerfile")
+      name: my-docker-app # Image name (default: auto-generated)
+      tag: production # Image tag (default: "latest")
+      image: myregistry.com/my-app:v1.0.0 # Full image reference (overrides name/tag)
+      args: # Build arguments
         NODE_ENV: production
         API_VERSION: v2
   resources:
@@ -80,14 +80,14 @@ machine:
     memory: 256
 ```
 
-| Property     | Type     | Default        | Description                               |
-|:-------------|:---------|:---------------|:------------------------------------------|
-| `context`    | `string` | `"."`          | Docker build context directory            |
-| `dockerfile` | `string` | `"Dockerfile"` | Path to Dockerfile                        |
-| `name`       | `string` | *auto*         | Image name (generates UUID if not specified) |
-| `tag`        | `string` | `"latest"`     | Image tag                                 |
-| `image`      | `string` | *auto*         | Full image reference (overrides all other options) |
-| `args`       | `object` | *none*         | Docker build arguments                    |
+| Property     | Type     | Default        | Description                                        |
+| :----------- | :------- | :------------- | :------------------------------------------------- |
+| `context`    | `string` | `"."`          | Docker build context directory                     |
+| `dockerfile` | `string` | `"Dockerfile"` | Path to Dockerfile                                 |
+| `name`       | `string` | _auto_         | Image name (generates UUID if not specified)       |
+| `tag`        | `string` | `"latest"`     | Image tag                                          |
+| `image`      | `string` | _auto_         | Full image reference (overrides all other options) |
+| `args`       | `object` | _none_         | Docker build arguments                             |
 
 ## Nixpacks Integration
 
@@ -128,6 +128,7 @@ app:
 ```
 
 Nixpacks will:
+
 - Detect `package.json`
 - Install dependencies with npm/yarn/pnpm
 - Build the application if a build script exists
@@ -147,6 +148,7 @@ machine:
 ```
 
 Nixpacks will:
+
 - Detect `requirements.txt`, `Pipfile`, or `pyproject.toml`
 - Install Python and dependencies
 - Start with detected entry point or `python main.py`
@@ -165,6 +167,7 @@ machine:
 ```
 
 Nixpacks will:
+
 - Detect `go.mod`
 - Build a static binary
 - Create minimal container image
@@ -173,8 +176,7 @@ Nixpacks will:
 
 You can customize Nixpacks behavior with a `nixpacks.toml` file:
 
-```toml
-# nixpacks.toml
+```toml title="nixpacks.toml"
 [variables]
 NODE_VERSION = "18"
 NPM_CONFIG_PRODUCTION = "false"
@@ -200,38 +202,47 @@ Place this file in your project root or build directory. The CLI will automatica
 
 When you run `lttle deploy`, builds happen locally on your machine:
 
-```bash
-$ lttle deploy
-
-→ Building image for default/my-app
-→ Auto-build using providers: node
-→ Pushing image for default/my-app → registry.lttle.cloud/tenant/my-app:abc123
-→ Successfully built and pushed image for default/my-app
-→ Successfully deployed app: default/my-app
+```plaintext command="lttle deploy"
+// lttle-good-output-next-line
+Building image for default/my-app
+// lttle-good-output-next-line
+Auto-build using providers: node
+// lttle-good-output-next-line
+Pushing image for default/my-app → registry.lttle.cloud/tenant/my-app:abc123
+// lttle-good-output-next-line
+Successfully built and pushed image for default/my-app
+// lttle-good-output-next-line
+Successfully deployed app: default/my-app
 ```
 
 ### Build Output
 
 Use `--debug-build` to see detailed build information:
 
-```bash
-$ lttle deploy --debug-build
-
-→ Building image for default/my-app
-→ Generated image reference: registry.lttle.cloud/tenant/my-app:abc123
-→ Building image for path: ./
-→ Auto-build using providers: node
-→ Build summary:
+```plaintext command="lttle deploy --debug-build"
+// lttle-good-output-next-line
+Building image for default/my-app
+// lttle-good-output-next-line
+Generated image reference: registry.lttle.cloud/tenant/my-app:abc123
+// lttle-good-output-next-line
+Building image for path: ./
+// lttle-good-output-next-line
+Auto-build using providers: node
+// lttle-good-output-next-line
+Build summary:
   setup    │ apt-get update && apt-get install -y nodejs npm
   install  │ npm ci
   build    │ npm run build
   start    │ npm start
-→ Generated docker file:
+// lttle-good-output-next-line
+Generated docker file:
   FROM ubuntu:jammy
   # ... dockerfile content ...
-→ Docker build output:
+// lttle-good-output-next-line
+Docker build output:
   # ... build logs ...
-→ Successfully built and pushed image for default/my-app
+// lttle-good-output-next-line
+Successfully built and pushed image for default/my-app
 ```
 
 ### Build Cache
@@ -289,8 +300,7 @@ machine:
     memory: 1024
 ```
 
-```dockerfile
-# Dockerfile.prod
+```dockerfile title="Dockerfile.prod"
 FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -339,26 +349,34 @@ If your build fails:
 ### Common Issues
 
 **No compatible providers found**:
-```
+
+```plaintext
+// lttle-bad-output-next-line
 No compatible providers found for auto-build. Check the documentation for auto-build supported targets.
 ```
+
 - Ensure your project has the required files for language detection
 - Consider using Docker build mode instead
 
 **Dockerfile not found**:
-```
+
+```plaintext
+// lttle-bad-output-next-line
 Dockerfile not found
 ```
+
 - Verify the `dockerfile` path in Docker build configuration
 - Ensure the Dockerfile exists in the specified location
 
 **Build context issues**:
+
 - Make sure the `context` directory exists and contains necessary files
 - Check that paths are relative to your deployment file location
 
 ### Getting Help
 
 For build-related issues:
+
 - Check the [Nixpacks documentation](https://nixpacks.com/docs) for language-specific guidance
 - Use `--debug-build` flag to get detailed build logs
 - Verify your project structure matches the expected patterns for your language

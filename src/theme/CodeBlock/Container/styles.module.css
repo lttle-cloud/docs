@@ -1,0 +1,25 @@
+.codeBlockContainer,
+.codeBlockContainerCommand,
+.codeBlockContainerWithCommand {
+  background: var(--prism-background-color);
+  color: var(--prism-color);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.codeBlockContainer {
+  border-radius: var(--ifm-code-border-radius);
+  margin-bottom: var(--ifm-leading);
+}
+
+.codeBlockContainerCommand {
+  border-top-left-radius: var(--ifm-code-border-radius);
+  border-top-right-radius: var(--ifm-code-border-radius);
+  border-bottom: 1px solid var(--ifm-color-gray-400);
+}
+
+.codeBlockContainerWithCommand {
+  margin-bottom: var(--ifm-leading);
+  box-shadow: var(--ifm-global-shadow-lw);
+  border-bottom-left-radius: var(--ifm-code-border-radius);
+  border-bottom-right-radius: var(--ifm-code-border-radius);
+}

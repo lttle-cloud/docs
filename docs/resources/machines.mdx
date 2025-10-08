@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 import Mermaid from '@theme/Mermaid';
-import ResourceNameValidation from '../common/resource-name-validation.md';
+import CommonResourceNameValidation from '../parts/_resource-name-validation.md';
 
 # Machines
 
@@ -12,20 +12,20 @@ If you want to know how to deploy a machine you can check [Building & Deploying 
 
 ## Configuration
 
-| Properties                              |                Type                 | Required |  Default  |
-| :-------------------------------------- | :---------------------------------: | :------: | :-------: |
-| `namespace`                             |              `string`               |          | `default` |
-| [`name`](#name)                         |              `string`               |    ✓     |           |
-| [`tags`](#tags)                         |           `array<string>`           |          |           |
-| [`image`](#image)                       |              `string`               |    ✓*    |           |
-| [`build`](#build)                       |              `object`               |          |           |
-| [`depends-on`](#depends-on)             |           `array<object>`           |          |           |
-| [`resources`](#resources)               |              `object`               |    ✓     |           |
-| [`mode`](#mode)                         |        `object` \| `regular`        |    ✓     |           |
-| [`restart-policy`](#restart-policy)             | `always` \| `on-failure` \| `never` |          | `always`  |
-| [`environment`](#environment-variables) |              `object`               |          |           |
-| [`volume`](#volumes)                    |              `object`               |          |           |
-| [`command`](#command)                   |               `array`               |          |           |
+| Properties                              |                Type                              | Required |  Default  |
+| :-------------------------------------- | :-----------------------------------------------:| :------: | :-------: |
+| `namespace`                             |              `string`                            |          | `default` |
+| [`name`](#name)                         |              `string`                            |    ✓     |           |
+| [`tags`](#tags)                         |           `array<string>`                        |          |           |
+| [`image`](#image)                       |              `string`                            |    ✓*    |           |
+| [`build`](#build)                       |              `object`                            |          |           |
+| [`depends-on`](#depends-on)             |           `array<object>`                        |          |           |
+| [`resources`](#resources)               |              `object`                            |    ✓     |           |
+| [`mode`](#mode)                         |        `object` \| `regular`                     |    ✓     |           |
+| [`restart-policy`](#restart-policy)     | `always` \| `on-failure` \| `never` \| `removed` |          | `always`  |
+| [`environment`](#environment-variables) |              `object`                            |          |           |
+| [`volume`](#volumes)                    |              `object`                            |          |           |
+| [`command`](#command)                   |               `array`                            |          |           |
 
 :::note Image vs Build
 
@@ -39,7 +39,7 @@ If you want to know more about namespaces, check [Building & Deploying &gt; Name
 
 The name is the unique identifier for your machine within a namespace. It is used to reference the machine in [services](./services.mdx).
 
-<ResourceNameValidation />
+<CommonResourceNameValidation />
 
 ```yaml title="robot.lttle.yaml"
 machine:

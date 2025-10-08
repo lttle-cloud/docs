@@ -19,3 +19,7 @@ A tenant is a logical grouping of resources within the lttle.cloud platform. Eac
 A profile is a CLI configuration that contains the credentials and settings for accessing the lttle.cloud platform. You can have multiple profiles, each with its own set of credentials and settings.
 
 You can switch between profiles using the `lttle profile set <profile-name>` command. This allows you to easily manage multiple accounts or environments.
+
+## Serverless
+
+Within lttle.cloud's platform serverless refers to a hosting mode where the VM (virtual machine) is not continuously running, but instead it is started on demand when it receives traffic and stopped based on the configured strategy. This allows for cost-efficient hosting, as you only pay for the compute resources when they are actually being used.
