@@ -169,3 +169,56 @@
   padding: 0 var(--ifm-pre-padding);
   border-left: 3px solid #ff000080;
 }
+
+/* Fix YAML syntax highlighting in dark mode */
+[data-theme="dark"] .token.tag,
+[data-theme="dark"] .token.attr-name,
+[data-theme="dark"] .token.selector,
+[data-theme="dark"] .token.selector .class {
+    color: #ff79c6; /* Pink for YAML keys */
+}
+
+[data-theme="dark"] .token.string,
+[data-theme="dark"] .token.attr-value {
+    color: #f1fa8c; /* Yellow for YAML string values */
+}
+
+[data-theme="dark"] .token.number,
+[data-theme="dark"] .token.boolean {
+    color: #bd93f9; /* Purple for YAML numbers/booleans */
+}
+
+[data-theme="dark"] .token.punctuation {
+    color: #f8f8f2; /* White for YAML punctuation */
+}
+
+[data-theme="dark"] .token.comment {
+    color: #6272a4; /* Gray for YAML comments */
+}
+
+[data-theme="dark"] .token.keyword {
+    color: #ff79c6; /* Pink for YAML keywords */
+}
+
+/* Additional YAML-specific token fixes */
+[data-theme="dark"] .language-yaml .token.atrule,
+[data-theme="dark"] .language-yaml .token.rule {
+    color: #ff79c6; /* Pink for YAML directives */
+}
+
+[data-theme="dark"] .language-yaml .token.property {
+    color: #ff79c6; /* Pink for YAML property names */
+}
+
+[data-theme="dark"] .language-yaml .token.operator {
+    color: #f8f8f2; /* White for YAML operators like : */
+}
+
+[data-theme="dark"] .language-yaml .token.function {
+    color: #50fa7b; /* Green for YAML functions */
+}
+
+/* Ensure YAML block scalars are properly colored */
+[data-theme="dark"] .language-yaml .token.literal {
+    color: #f1fa8c; /* Yellow for YAML literals */
+}
