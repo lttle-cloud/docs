@@ -9,8 +9,6 @@ if [ -z "${GITHUB_HEAD_REF+x}" ]; then
   export GITHUB_HEAD_REF
 fi
 
-lttle deploy --eval "" --debug-context
-
 namespace="docs-"$(lttle deploy --eval "git.ref == 'main' ? 'main' : env.GITHUB_HEAD_REF.toSlug() + '-branch'");
 tag=$(lttle deploy --eval "git.ref == 'main' ? 'latest' : env.GITHUB_HEAD_REF.toSlug() + '-branch'")
 
