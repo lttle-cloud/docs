@@ -73,6 +73,12 @@ jobs:
         env:
           TYPESENSE_API_KEY: ${{ vars.TYPESENSE_API_KEY }}
 
+      # NOTE: Apply certificate only on main branch deployments for production
+      - name: "Apply certificate"
+        if: github.ref_name == 'main'
+        run: |
+          lttle deploy certs.lttle.yaml
+
         # NOTE: This has been added because we need to wait for the application to be fully up before proceeding
         # The status of the machine does not reflect the readiness of the service + machine to receive traffic
         # And we want the scraper to actually scrape the documentation post-deployment & readiness
