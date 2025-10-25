@@ -1,5 +1,7 @@
 # lttle.cloud | Documentation
 
+To get started with contributing to the lttle documentation, follow the instructions below. If you just want to read the documentation, you can visit the [lttle Documentation Website](https://docs.lttle.cloud/).
+
 This documentation website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 ## Prerequisites
