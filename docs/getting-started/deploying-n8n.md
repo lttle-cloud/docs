@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Deploying n8n Community Edition
 
-Deploy n8n workflow automation on lttle.cloud in minutes using a pre-configured setup.
+Deploy n8n workflow automation on lttle.cloud in minutes using a pre-configured setup. If you prefer watching over reading, you can check out [this video guide](https://www.youtube.com/watch?v=dQw4w9WgXcQ) with the same steps.
 
 ## Prerequisites
 
