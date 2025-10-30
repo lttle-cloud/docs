@@ -62,6 +62,7 @@ Once n8n is running:
 - Connect to external services and APIs
 - Set up webhooks for automation
 - Explore n8n's extensive node library
+- Use a custom domain: Configure your own domain instead of the auto-generated one - see [Apps > Using custom domains](../resources/apps.mdx#using-custom-domains)
 
 ## Troubleshooting
 
@@ -72,3 +73,4 @@ Once n8n is running:
 **Need to customize the setup:**
 - Download and modify the `n8n.yaml` configuration file
 - See [Apps configuration](../resources/apps.mdx) for available options
+
