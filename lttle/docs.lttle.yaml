@@ -12,7 +12,7 @@ machine:
     memory: "${{ git.ref == 'main'? 512 : 64 }}"
   mode:
     flash:
-      # NOTE: We only need a timeout when NGINX is initially being setup
+      # NOTE: We only need a timeout when Nginx is initially being setup
       # We do not need any more timeouts after that
       timeout: 5
       strategy:

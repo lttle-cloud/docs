@@ -1,0 +1,339 @@
+---
+toc_max_heading_level: 4
+---
+
+import CommonAuthentication from "./parts/_authentication.md";
+import CommonInstallingTheCli from "./parts/_installing-the-cli.md";
+import CommonSubcommandNamespace from "./parts/_subcommand_namespace.md";
+
+# CLI
+
+The `lttle` CLI is a command-line interface tool that allows you to interact with the lttle.cloud platform directly from your terminal. It provides various commands to manage your resources, deploy applications, and perform other tasks related to lttle.cloud.
+
+## Installing
+
+<CommonInstallingTheCli />
+
+## Updating
+
+There is no automatic update mechanism yet. You need to re-run the install script to update to the latest version.
+
+## Commands
+
+| Command                       | Description                                 | Usage                                            |
+| ----------------------------- | ------------------------------------------- | ------------------------------------------------ |
+| [`login`](#login)             | Authenticate with your JWT token.           | `lttle login --api https://eu.lttle.cloud <JWT>` |
+| [`whoami`](#whoami)           | Show the currently authenticated user.      | `lttle whoami`                                   |
+| [`profile`](#profile)         | Manage CLI profiles.                        | `lttle profile <subcommand>`                     |
+| [`gadget`](#gadget)           | AI assistant to help onboard projects.      | `lttle gadget init`                              |
+| [`import`](#import)           | Import existing resources into lttle.cloud. | `lttle import <subcommand>`                      |
+| [`deploy`](#deploy)           | Deploy resources to lttle.cloud.            | `lttle deploy [OPTIONS] [PATH]`                  |
+| [`namespace`](#namespace)     | Manage namespaces.                          | `lttle namespace <subcommand>`                   |
+| [`app`](#app)                 | Manage applications.                        | `lttle app <subcommand>`                         |
+| [`machine`](#machine)         | Manage machines.                            | `lttle machine <subcommand>`                     |
+| [`volume`](#volume)           | Manage volumes.                             | `lttle volume <subcommand>`                      |
+| [`service`](#service)         | Manage services.                            | `lttle service <subcommand>`                     |
+| [`certificate`](#certificate) | Manage certificates.                        | `lttle certificate <subcommand>`                 |
+| [`query`](#query)             | Query resources.                            | `lttle query [OPTIONS] <EXPRESSION>`             |
+| [`docker`](#docker)           | Docker management.                          | `lttle docker <subcommand>`                      |
+| [`completion`](#completion)   | Generate shell completion scripts.          | `lttle completion <SHELL>`                       |
+
+### `login`
+
+<CommonAuthentication />
+
+### `whoami`
+
+You can check to see what user you are authenticated as by running:
+
+```plaintext command="lttle whoami"
+// lttle-good-output-next-line
+Current profile: default
+// lttle-good-output-next-line
+You are logged in as your-username (tenant: your-tenant)
+```
+
+Replace `your-username` and `your-tenant` with your actual username and tenant.
+
+### `profile`
+
+:::note What is a profile?
+
+:::
+
+### `gadget`
+
+This is our AI assistant that can help you onboard your projects faster.
+
+You can invoke it by running `lttle gadget init` inside your project folder. It will analyze your project and create the necessary configuration files to get you started with deploying to lttle.cloud.
+
+---
+
+Here is an example of how it looks when running it inside a folder with just an index.html file:
+
+```plaintext command="lttle gadget init"
+// lttle-good-output-next-line
+Gadget is working on getting your project ready for lttle.cloud
+// lttle-green-output-next-line
+Will use reasoning model with default reasoning effort
+// highlight-next-line
+// lttle-good-output-next-line
+Created lttle.yaml
+// highlight-next-line
+// lttle-good-output-next-line
+Created .vscode/settings.json
+// highlight-next-line
+// lttle-good-output-next-line
+Created .vscode/extensions.json
+warning: Repository contains a single static file (index.html). Deployed as an nginx static site exposing HTTPS on port 80. If you intended a different build (React/Next.js) or need environment variables, provide the project source code or .env files.
+// lttle-good-output-next-line
+Gadget has finished initializing your project
+// lttle-good-output-next-line
+Next steps:
+// highlight-next-line
+  → Deploy your app with `lttle deploy`
+// highlight-next-line
+  → Check on your machine with `lttle machine get static-site --ns test`
+// highlight-next-line
+  → Check on your app with `lttle app get static-site --ns test`
+  → See more things you can do with `lttle --help`
+🎉 Happy clouding!
+```
+
+And you will see that it has
+
+1. Created or updated `.vscode/settings.json` and `.vscode/extensions.json` to help you work with the project in VSCode.
+   - `settings.json` will contain recommended settings for working with lttle projects.
+   - `extensions.json` will recommend installing recommended extensions
+2. Created `lttle.yaml` with a basic configuration for your project.
+
+For our example with just an `index.html` file, it created a static site project for us that will deploy the static file using nginx.
+
+```yaml {3,4} title="lttle.yaml"
+app:
+  namespace: test
+  name: static-site
+  image: nginx:alpine
+  resources:
+    cpu: 1
+    memory: 256
+  mode:
+    flash:
+      strategy:
+        listen-on-port: 80
+  environment:
+    PORT: "80"
+  expose:
+    http:
+      port: 80
+      external:
+        protocol: https
+```
+
+### `import`
+
+### `deploy`
+
+The `lttle deploy` command is used to deploy or update your resources defined in a configuration file to lttle.cloud.
+
+Usage:
+
+```sh
+lttle deploy [OPTIONS] [PATH]
+```
+
+| Option                      | Description                                                     | Usage                                    |
+| --------------------------- | --------------------------------------------------------------- | ---------------------------------------- |
+| `--env <ENV_FILE>`          | Specify an environment file to load environment variables from. | `lttle deploy --env .env.production`     |
+| `--vars <VAR_FILE>`         | Specify a variables file to load variables from.                | `lttle deploy --vars vars.yaml`          |
+| `--var <KEY=VALUE>`         | Specify a single variable to override.                          | `lttle deploy --var version=1.2.3`       |
+| `--no-env-ambient-override` | Disable ambient environment variable overrides.                 | `lttle deploy --no-env-ambient-override` |
+
+### `namespace`
+
+Resources within lttle.cloud are organized into **namespaces**. You can read more about namespaces in the [namespaces documentation](./building-and-deploying/namespaces.md).
+
+| Subcommand             | Description                               | Usage                                |
+| ---------------------- | ----------------------------------------- | ------------------------------------ |
+| `list` (short: `ls`)   | List all namespaces you have access to.   | `lttle namespace list`               |
+| `delete` (short: `rm`) | Delete a namespace and all its resources. | `lttle namespace delete <NAMESPACE>` |
+
+:::danger irreversible
+
+The `delete` subcommand is irreversible. By default it will not delete namespaces.
+
+To delete a namespace you also need to use the `--yes` (short: `-y`) flag to confirm you want to delete all resources within the namespace.
+
+```sh
+lttle namespace delete your-namespace --yes
+```
+
+:::
+
+### `app`
+
+| Subcommand             | Description                           | Usage                         |
+| ---------------------- | ------------------------------------- | ----------------------------- |
+| `list` (short: `ls`)   | List all applications                 | `lttle app list               |
+| `get`                  | Get details of a specific application | `lttle app get <APP_NAME>`    |
+| `delete` (short: `rm`) | Delete a specific application         | `lttle app delete <APP_NAME>` |
+
+<CommonSubcommandNamespace />
+
+:::danger irreversible action
+
+The `delete` subcommand is irreversible. By default it will not delete namespaces.
+
+To delete a namespace you also need to use the `--yes` (short: `-y`) flag to confirm you want to delete all resources within the namespace.
+
+```sh
+lttle namespace delete your-namespace --yes
+```
+
+:::
+
+### `machine`
+
+| Subcommand              | Description                             | Usage                                                   |
+| ----------------------- | --------------------------------------- | ------------------------------------------------------- |
+| `list` (short: `ls`)    | List all machines                       | `lttle machine list`                                    |
+| `get`                   | Get details of a specific machine       | `lttle machine get <MACHINE_NAME>`                      |
+| [`logs`](#machine-logs) | Get logs of a specific machine          | `lttle machine logs <MACHINE_NAME> [OPTIONS]`           |
+| [`exec`](#machine-exec) | Execute a command on a specific machine | `lttle machine exec [OPTIONS] <MACHINE_NAME> [COMMAND]` |
+| `delete` (short: `rm`)  | Delete a specific machine               | `lttle machine delete <MACHINE_NAME>`                   |
+| `restart`               | Restart a specific machine              | `lttle machine restart <MACHINE_NAME>`                  |
+
+<CommonSubcommandNamespace />
+
+:::danger irreversible action
+
+The `delete` subcommand is irreversible. By default it will not delete machines.
+
+To delete a machine you also need to use the `--yes` (short: `-y`) flag to confirm you want to delete the machine.
+
+```sh
+lttle machine delete your-machine --yes
+```
+
+:::
+
+#### `logs` {#machine-logs}
+
+| Options                                           | Description                                               | Usage                                        |
+| ------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------- |
+| `--since <DURATION>` (default: `1d`, short: `-s`) | Show logs since a specific duration (eg. 1d, 1h, 1m, 10s) | `lttle machine logs my-machine --since 1h`   |
+| `--timestamps` (short: `-t`)                      | Show timestamps in the log output                         | `lttle machine logs my-machine --timestamps` |
+| `--follow` (short: `-f`)                          | Follow the log output                                     | `lttle machine logs my-machine --follow`     |
+| `--elapsed` (short: `-e`)                         | Show elapsed time since the log entry                     | `lttle machine logs my-machine --elapsed`    |
+| `--follow` (short: `-f`)                          | Follow the log output                                     | `lttle machine logs my-machine --follow`     |
+
+#### `exec` {#machine-exec}
+
+| Options                 | Description                                 | Usage                                      |
+| ----------------------- | ------------------------------------------- | ------------------------------------------ |
+| `--stdin` (short: `-i`) | Pass `stdin` to the container (interactive) | `lttle machine exec -i my-machine /bin/sh` |
+| `--tty` (short: `-t`)   | `stdin` is a TTY (allocate pseudo-terminal) | `lttle machine exec -t my-machine /bin/sh` |
+
+Examples:
+
+- Run an interactive shell on the machine:
+
+  ```sh
+  lttle machine exec -it my-machine /bin/sh
+  ```
+
+- Run a command non-interactively:
+
+  ```sh
+  lttle machine exec my-machine ls /path/to/directory
+  ```
+
+### `volume`
+
+| Subcommand             | Description                      | Usage                               |
+| ---------------------- | -------------------------------- | ----------------------------------- |
+| `list` (short: `ls`)   | List all volumes                 | `lttle volume list`                 |
+| `get`                  | Get details of a specific volume | `lttle volume get <VOLUME_NAME>`    |
+| `delete` (short: `rm`) | Delete a specific volume         | `lttle volume delete <VOLUME_NAME>` |
+
+<CommonSubcommandNamespace />
+
+:::danger irreversible action
+
+The `delete` subcommand is irreversible. By default it will not delete volumes.
+
+To delete a volume you also need to use the `--yes` (short: `-y`) flag to confirm you want to delete the volume.
+
+```sh
+lttle volume delete your-volume --yes
+```
+
+:::
+
+### `service`
+
+| Subcommand             | Description                       | Usage                                 |
+| ---------------------- | --------------------------------- | ------------------------------------- |
+| `list` (short: `ls`)   | List all services                 | `lttle service list`                  |
+| `get`                  | Get details of a specific service | `lttle service get <SERVICE_NAME>`    |
+| `delete` (short: `rm`) | Delete a specific service         | `lttle service delete <SERVICE_NAME>` |
+
+<CommonSubcommandNamespace />
+
+:::danger irreversible action
+
+The `delete` subcommand is irreversible. By default it will not delete services.
+
+To delete a service you also need to use the `--yes` (short: `-y`) flag to confirm you want to delete the service.
+
+```sh
+lttle service delete your-service --yes
+```
+
+:::
+
+### `certificate`
+
+| Subcommand             | Description                           | Usage                                         |
+| ---------------------- | ------------------------------------- | --------------------------------------------- |
+| `list` (short: `ls`)   | List all certificates                 | `lttle certificate list`                      |
+| `get`                  | Get details of a specific certificate | `lttle certificate get <CERTIFICATE_NAME>`    |
+| `delete` (short: `rm`) | Delete a specific certificate         | `lttle certificate delete <CERTIFICATE_NAME>` |
+
+<CommonSubcommandNamespace />
+
+:::danger irreversible action
+
+The `delete` subcommand is irreversible. By default it will not delete services.
+
+To delete a service you also need to use the `--yes` (short: `-y`) flag to confirm you want to delete the service.
+
+```sh
+lttle service delete your-service --yes
+```
+
+:::
+
+### `query`
+
+:::note TODO
+
+:::
+
+### `docker`
+
+| Subcommand | Description                        | Usage                |
+| ---------- | ---------------------------------- | -------------------- |
+| `login`    | Login to the lttle Docker registry | `lttle docker login` |
+
+### `completion`
+
+You can enable autocompletion for your shell by adding the following line to your shell configuration file:
+
+We currently support `bash`, `zsh`, `fish`, `elvish` and `powershell`. Run the following command to get the exact command for your shell:
+
+```sh
+lttle completion <SHELL>
+```
+
+The command will try to update your shell configuration file automatically, but if it fails you can follow the instructions printed in the terminal.

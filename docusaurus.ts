@@ -39,7 +39,9 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
   baseUrl: "/",
 
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenMarkdownLinks: "throw",
+  onBrokenAnchors: "throw",
+  onDuplicateRoutes: "throw",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -59,7 +61,7 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
           remarkPlugins: [
             [
               require("@docusaurus/remark-plugin-npm2yarn"),
-              { sync: true, converters: ["yarn", "pnpm"] },
+              { sync: true, converters: ["yarn", "pnpm", "bun"] },
             ],
           ],
         },
@@ -179,9 +181,23 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
       magicComments: [
+        // Remember to extend the default highlight class name as well!
         {
-          className: "code-block-error-line",
-          line: "code-block-error-line",
+          className: "theme-code-block-highlighted-line",
+          line: "highlight-next-line",
+          block: { start: "highlight-start", end: "highlight-end" },
+        },
+        {
+          className: "lttle-green-output",
+          line: "lttle-green-output-next-line",
+        },
+        {
+          className: "lttle-good-output",
+          line: "lttle-good-output-next-line",
+        },
+        {
+          className: "lttle-bad-output",
+          line: "lttle-bad-output-next-line",
         },
       ],
       additionalLanguages: [
@@ -193,6 +209,7 @@ export const getConfig = (cfg: LttleDocusaurusConfig): Config => ({
         "docker",
         "nginx",
         "psl",
+        "toml",
       ],
     },
     // TypeSense is configured with the same cfg as Algolia

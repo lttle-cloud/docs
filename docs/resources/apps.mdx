@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 import Mermaid from '@theme/Mermaid';
-import ResourceNameValidation from '../common/resource-name-validation.md';
+import CommonResourceNameValidation from '../parts/_resource-name-validation.md';
 
 # Apps
 
@@ -14,21 +14,21 @@ If you want to know how to deploy an app, check [Building & Deploying > Building
 
 ## Configuration
 
-| Properties                              |                Type                 | Required |  Default  |
-| :-------------------------------------- | :---------------------------------: | :------: | :-------: |
-| `namespace`                             |              `string`               |          | `default` |
-| [`name`](#name)                         |              `string`               |    ✓     |           |
-| [`tags`](#tags)                         |           `array<string>`           |          |           |
-| [`image`](#image)                       |              `string`               |    ✓*    |           |
-| [`build`](#build)                       |              `object`               |          |           |
-| [`resources`](#resources)               |              `object`               |    ✓     |           |
-| [`expose`](#expose)                     |              `object`               |          |           |
-| [`mode`](#mode)                         |        `object` \| `regular`        |          | `regular` |
-| [`restart-policy`](#restart-policy)     | `always` \| `on-failure` \| `never` |          | `always`  |
-| [`environment`](#environment-variables) |              `object`               |          |           |
-| [`volumes`](#volumes)                   |           `array<object>`           |          |           |
-| [`command`](#command)                   |           `array<string>`           |          |           |
-| [`depends-on`](#depends-on)             |           `array<object>`           |          |           |
+| Properties                              |                Type                              | Required |  Default  |
+| :-------------------------------------- | :----------------------------------------------: | :------: | :-------: |
+| `namespace`                             |              `string`                            |          | `default` |
+| [`name`](#name)                         |              `string`                            |    ✓     |           |
+| [`tags`](#tags)                         |           `array<string>`                        |          |           |
+| [`image`](#image)                       |              `string`                            |    ✓*    |           |
+| [`build`](#build)                       |              `object`                            |    ✓*    |           |
+| [`resources`](#resources)               |              `object`                            |    ✓     |           |
+| [`expose`](#expose)                     |              `object`                            |          |           |
+| [`mode`](#mode)                         |        `object` \| `regular`                     |          | `regular` |
+| [`restart-policy`](#restart-policy)     | `always` \| `on-failure` \| `never` \| `removed` |          | `always`  |
+| [`environment`](#environment-variables) |              `object`                            |          |           |
+| [`volumes`](#volumes)                   |           `array<object>`                        |          |           |
+| [`command`](#command)                   |           `array<string>`                        |          |           |
+| [`depends-on`](#depends-on)             |           `array<object>`                        |          |           |
 
 :::note Image vs Build
 
@@ -42,7 +42,7 @@ If you want to know more about namespaces, check [Building & Deploying > Namespa
 
 The name is the unique identifier for your app within a namespace. It is used as the name for the underlying machine and to generate service names.
 
-<ResourceNameValidation />
+<CommonResourceNameValidation />
 
 ```yaml title="webapp.lttle.yaml"
 app:
@@ -127,10 +127,10 @@ When using `build`, the CLI will automatically build and push the image during d
 
 The compute resources allocated to the machine. This follows the same structure as [machine resources](./machines.mdx#resources).
 
-| Properties          | Type                                    | Required |
-| :------------------ | :-------------------------------------- | :------: |
-| [`cpu`](#cpu)       | `int` (min: `1` max: `24`)              |    ✓     |
-| [`memory`](#memory) | `int` mebibytes (min: `64` max: `1024`) |    ✓     |
+| Properties | Type                                    | Required |
+| :--------- | :-------------------------------------- | :------: |
+| [`cpu`]    | `int` (min: `1` max: `24`)              |    ✓     |
+| [`memory`] | `int` mebibytes (min: `64` max: `1024`) |    ✓     |
 
 ```yaml title="webapp.lttle.yaml"
 app:
@@ -157,12 +157,12 @@ app:
 
 Each expose entry has the following structure:
 
-| Properties                              |                Type                 | Required |
-| :-------------------------------------- | :---------------------------------: | :------: |
-| [`port`](#expose-port)                  |               `int`                 |    ✓     |
-| [`external`](#expose-external)          |              `object`               |          |
-| [`internal`](#expose-internal)          |              `object`               |          |
-| [`connection-tracking`](#connection-tracking) |        `object`               |          |
+| Properties                     |                Type                 | Required |
+| :------------------------------| :---------------------------------: | :------: |
+| [`port`](#expose-port)         |               `int`                 |    ✓     |
+| [`external`](#expose-external) |              `object`               |          |
+| [`internal`](#expose-internal) |              `object`               |          |
+| `connection-tracking`          |              `object`               |          |
 
 :::info
 
@@ -236,7 +236,7 @@ app:
         protocol: https
         host: www.mycompany.com
 ---
-# Certificate for your custom domain  
+# Certificate for your custom domain
 certificate:
   name: my-app-cert
   domains:
@@ -403,7 +403,7 @@ Apps simplify application deployment by automatically managing machines and serv
 The app controller creates a machine with the same name as the app, using these mappings:
 
 - `app.image` → `machine.image`
-- `app.resources` → `machine.resources` 
+- `app.resources` → `machine.resources`
 - `app.environment` → `machine.environment`
 - `app.command` → `machine.command`
 - `app.volumes` → `machine.volumes`
@@ -462,7 +462,7 @@ app:
       port: 80
       external:
         protocol: https
-    admin:      # Admin interface  
+    admin:      # Admin interface
       port: 8080
       external:
         protocol: https

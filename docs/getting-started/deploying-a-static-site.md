@@ -1,40 +1,43 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Deploying a static site
 
-This guide walks you through deploying a simple static website on lttle.cloud, from basic setup to adding flash mode for cost-efficient serverless hosting.
+This guide walks you through deploying a simple static website with [Nginx](https://nginx.org/) on [lttle.cloud](https://lttle.cloud), from basic setup to adding flash mode for cost-efficient serverless hosting.
 
-## Prerequisites
+The focus of this exercise if to get you familiar with lttle.cloud's features and workflows.
+:::tip
 
-- lttle CLI installed and configured ([Installation guide](./installing-the-cli.md))
-- Basic familiarity with YAML configuration
+If you want to skip the explanations, you can find the complete final example in our [GitHub Samples &raquo; Nginx](https://github.com/lttle-cloud/samples/tree/main/nginx) or you can follow the [Nginx](../guides-and-samples/software/nginx.md) guide.
 
-## Getting Started
+:::
 
-Let's start by creating a simple static site using a pre-built nginx image, then enhance it with lttle.cloud's features.
+---
 
-### Create your project
+This guide is comprised of 4 main steps:
 
-First, create a new directory for your project:
+1. [Default Nginx deployment](#default-nginx-deployment) - where we will deploy the default Nginx Docker image as-is.
+2. [Auto building](#auto-building) - where we will create a custom static site and use lttle.cloud's automated build and deploy feature to deploy it.
+3. [Building & Deploying a dedicated Nginx Docker image](#building--deploying-a-dedicated-nginx-docker-image) - where we will build a custom Docker image with our static site and deploy it.
+4. [Making our deployments serverless](#making-our-deployments-serverless) - where we will convert our deployments to use flash mode for cost-efficient serverless hosting.
 
-```bash
-mkdir my-static-site
-cd my-static-site
-```
+---
 
-### Create the deployment configuration
+## Default Nginx deployment
 
-Create a `lttle.yaml` file with a basic app configuration:
+### Creating the deployment configuration
 
-```yaml title="lttle.yaml"
+Create a file named `nginx-default.lttle.yaml` with the following content:
+
+```yaml title="nginx-default.lttle.yaml" {4}
 app:
-  name: hello-lttle
+  name: nginx-default
+  namespace: samples
   image: nginx:latest
   resources:
     cpu: 1
-    memory: 128
+    memory: 64
   expose:
     public:
       port: 80
@@ -42,219 +45,244 @@ app:
         protocol: https
 ```
 
-This creates an app that:
-- Uses the official nginx image from Docker Hub
-- Allocates 1 CPU core and 128MB of memory
-- Runs nginx with its default configuration (serves nginx welcome page)
-- Exposes port 80 externally via HTTPS with an auto-generated domain
+We have
 
-The `expose` configuration:
-- **public** - Names this service endpoint (you can have multiple endpoints)
-- **port: 80** - The port nginx listens on inside the container
-- **external** - Makes the service accessible from the internet
-- **protocol: https** - Automatically provides SSL/TLS encryption
+- Defined an [app](../resources/apps.mdx) resource (that is a combination nf [machines](../resources/machines.mdx) and [services](../resources/services.mdx)) to manage our application within the `samples` [namespace](../building-and-deploying/namespaces.md).
+- Specified the use of the latest official Nginx Docker image.
+- Allocated `1` CPU Core and `64` MiB of memory to the application.
+- Configured the application to be accessible via HTTPS and route traffic to port `80` of the Nginx server.
 
-lttle.cloud will automatically generate a domain like `hello-lttle--public--yourtenantname.eu.lttle.host` for your app.
+### Deploying the application
 
-### Deploy your site
+To deploy the application, run the following command in the directory where you created the `nginx-default.lttle.yaml` file:
 
-Deploy the app to lttle.cloud:
+```plaintext command="lttle deploy nginx-default.lttle.yaml"
+// lttle-good-output-next-line
+Successfully deployed app: samples/nginx-default
+```
+
+### Checking the deployment
+
+After the deployment is complete, you can check the status of your application by running:
+
+```plaintext command="lttle app get --ns samples nginx-default" {3,7}
+               name: nginx-default
+          namespace: samples
+               mode: regular
+              image: nginx:latest
+               cpus: 1
+             memory: 64 MiB
+           services: public: https://nginx-default--samples--public--your-tenant.eu.lttle.host → :80
+```
+
+:::warning
+
+The machine will be deployed with a `regular` mode by default, meaning that it will be continuously running and you will be charged for the compute resources even if there is no traffic.
+
+:::
+
+To make sure that our machine is ready, run:
+
+```plaintext command="lttle machine get --ns samples nginx-default" {3,7}
+                       name: nginx-default
+                  namespace: samples
+                     status: ready
+                       mode: regular
+                      image: docker.io/library/nginx:latest@sha256...
+                       cpus: 1
+                     memory: 64 MiB
+```
+
+To know more about machine statuses, check the [Machines &raquo; State Lifecycle](../resources/machines.mdx#state-lifecycle) documentation.
+
+When the machine reaches its ready state, you can access your Nginx server by navigating to the URL provided in the `services` section of the output. Replace `your-tenant` with your actual tenant name.
+
+Meanwhile you can check our deployment: [https://nginx-default--samples--public--your-tenant.eu.lttle.host/](https://nginx-default--samples--public--your-tenant.eu.lttle.host/) or you can check it out from our [GitHub Samples &raquo; Nginx &raquo; Default](https://github.com/lttle-cloud/samples/tree/main/nginx/default).
+
+:::note
+
+Right now, the default Nginx Docker image does not include any custom configuration or content. It will serve the default Nginx welcome page.
+
+:::
+
+## Auto building
+
+### Creating something to deploy
+
+To customize our Nginx deployment, we can use our automated build and deploy feature. This will allow you to build a custom Docker image from a source directory and deploy it to lttle.cloud in one step.
+
+Create a file named `index.html` with the following content:
 
 ```bash
-lttle deploy
+echo "Hello from Nginx via lttle.cloud! (custom build auto)" > index.html
 ```
 
-You should see output similar to:
-```
-→ Successfully deployed app: default/hello-lttle
-```
+### Creating the auto build & deployment configuration
 
-### Check deployment status
+After that, create a file named `nginx-custom-build-auto.lttle.yaml` with the following content:
 
-Monitor your machine's status with:
-
-```bash
-lttle machine ls
-```
-
-Wait for the machine to reach the `ready` state:
-```
-NAME          NAMESPACE   IMAGE          STATUS   CPU   MEMORY
-hello-lttle   default     nginx:latest   ready    1     128
-```
-
-### Access your site
-
-Get the URL for your deployed app:
-
-```bash
-lttle app get hello-lttle
-```
-
-This will show your app details including any exposed services. Open the provided URL in your browser to see the nginx welcome page.
-
-## Adding Flash Mode
-
-Now let's enhance your site with flash mode, which automatically suspends the machine when not in use, saving costs while providing instant wake-up on incoming requests.
-
-### Update your configuration
-
-Modify your `lttle.yaml` to include flash mode:
-
-```yaml title="lttle.yaml"
+```yaml title="nginx-custom-build-auto.lttle.yaml" {4}
 app:
-  name: hello-lttle
-  image: nginx:latest
-  resources:
-    cpu: 1
-    memory: 128
-  expose:
-    public:
-      port: 80
-      external:
-        protocol: https
-  mode: 
-    flash:
-      strategy:
-        listen-on-port: 80
-      timeout: 2
-```
-
-The configuration now includes:
-
-**Flash mode settings:**
-- **strategy: listen-on-port: 80** - Suspends the machine after nginx starts listening on port 80
-- **timeout: 2** - Suspends the machine 2 seconds after the last connection ends
-
-**Service exposure:**
-- **public** service endpoint exposes port 80 via HTTPS
-- Automatically provides SSL/TLS encryption and domain generation
-
-For more details about flash mode, see [Machines > Mode](../resources/machines.mdx#mode).
-
-### Redeploy with flash mode
-
-Deploy the updated configuration:
-
-```bash
-lttle deploy
-```
-
-### Observe flash mode behavior
-
-Check the machine status:
-
-```bash
-lttle machine ls
-```
-
-You'll see the machine go through these states:
-1. `ready` - Machine is running
-2. `suspending` - Creating a snapshot
-3. `suspended` - Machine is suspended
-
-Now open your site URL in the browser. The machine will automatically wake up from suspended state to serve your request!
-
-## Adding Custom Content
-
-Let's replace the default nginx page with custom content and use lttle.cloud's automatic building.
-
-### Create your content
-
-Create an `index.html` file in your project directory:
-
-```html title="index.html"
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hello lttle.cloud</title>
-</head>
-<body>
-    <h1>Hello, lttle.cloud!</h1>
-    <p>This is my static site running on lttle.cloud</p>
-</body>
-</html>
-```
-
-### Switch to automatic building
-
-Update your `lttle.yaml` to use automatic building instead of the pre-built nginx image:
-
-```yaml title="lttle.yaml"
-app:
-  name: hello-lttle
+  name: nginx-custom-build-auto
+  namespace: samples
   build: auto
   resources:
     cpu: 1
-    memory: 128
+    memory: 64
   expose:
     public:
       port: 80
       external:
         protocol: https
-  mode: 
+```
+
+:::note Builds
+
+Note the change from `image: nginx:latest` to `build: auto`. This instructs lttle.cloud to automatically build a Docker image from the contents of the current directory, push that image to its internal registry, and deploy it.
+
+:::
+
+### Building and Deploying the application {#auto-building-and-deploying-the-application}
+
+Building & Deploying happens in one step. To do that run the following command:
+
+```plaintext command="lttle deploy nginx-custom-build-auto.lttle.yaml"
+// lttle-green-output-next-line
+Building and pushing image for samples/nginx-custom-build-auto
+// highlight-next-line
+// lttle-green-output-next-line
+Auto-build using providers: staticfile
+// lttle-green-output-next-line
+Built image eu.registry.lttle.cloud/your-tenant/c6112699-6cea-4454-8dd8-be4b27ac6e6a:latest
+// lttle-green-output-next-line
+Pushing image eu.registry.lttle.cloud/your-tenant/c6112699-6cea-4454-8dd8-be4b27ac6e6a:latest
+// lttle-green-output-next-line
+Pushed image for samples/nginx-custom-build-auto → eu.registry.lttle.cloud/your-tenant/c6112699-6cea-4454-8dd8-be4b27ac6e6a:latest
+// lttle-good-output-next-line
+Successfully deployed app: samples/nginx-custom-build-auto
+```
+
+What happens here is:
+
+- The automated build processes detected the presence of an `index.html` file and used the `staticfile` build provider to create a Docker image with Nginx serving that file.
+- The built image is then pushed to lttle.cloud's internal container registry.
+- Finally, the application is deployed using the newly built image.
+
+To know more about the building & build providers, check the [Building & Deploying &raquo; Building](../building-and-deploying/building.md).
+
+### Checking the deployment {#checking-the-deployment-build-auto}
+
+```plaintext command="lttle app get --ns samples nginx-custom-build-auto" {3,9}
+               name: nginx-custom-build-auto
+          namespace: samples
+               mode: regular
+  snapshot strategy: listen on port 80
+    suspend timeout: 10s
+              image: eu.registry.lttle.cloud/your-tenant/c6112699-6cea-4454-8dd8-be4b27ac6e6a:latest
+               cpus: 1
+             memory: 64 MiB
+           services: public: https://nginx-custom-build-auto--samples--public--your-tenant.eu.lttle.host → :80
+```
+
+To know more about machine statuses, check the [Machines » State Lifecycle documentation](../resources/machines#state-lifecycle).
+
+When the machine reaches its ready state, you can access your Nginx server by navigating to the URL provided in the services section of the output. Replace your-tenant with your actual tenant name.
+
+Meanwhile you can check our deployment: [https://nginx-default--samples--public--your-tenant.eu.lttle.host/](https://nginx-default--samples--public--your-tenant.eu.lttle.host/) or you can check it out from our [GitHub Samples &raquo; Nginx &raquo; Custom with Automated Build](https://github.com/lttle-cloud/samples/tree/main/nginx/custom-build-auto).
+
+## Building & Deploying a dedicated Nginx Docker image
+
+This part only serves to illustrate how you can build and deploy a custom Docker image. For a more in-depth guides:
+
+- Check the [Building & Deploying &raquo; Building](../building-and-deploying/building.md) documentation to learn more about building.
+- Check the [Nginx](../guides-and-samples/software/nginx.md) guide to learn more about deploying Nginx.
+
+Here we will be using the same `index.html` file we created in the [previous step](#creating-something-to-deploy).
+
+### Creating a Dockerfile
+
+```dockerfile
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/
+```
+
+### Building & Deploying the application
+
+```plaintext command="lttle deploy nginx-custom-dockerfile.lttle.yaml"
+// lttle-green-output-next-line
+Building and pushing image for samples/nginx-custom-dockerfile
+// lttle-green-output-next-line
+Built image eu.registry.lttle.cloud/your-tenant/0e9c0cc0-f046-455a-a4f6-d4e5afc80fd6:latest
+// lttle-green-output-next-line
+Pushing image eu.registry.lttle.cloud/your-tenant/0e9c0cc0-f046-455a-a4f6-d4e5afc80fd6:latest
+// lttle-green-output-next-line
+Pushed image for samples/nginx-custom-dockerfile → eu.registry.lttle.cloud/your-tenant/0e9c0cc0-f046-455a-a4f6-d4e5afc80fd6:latest
+// lttle-good-output-next-line
+Successfully deployed app: samples/nginx-custom-dockerfile
+```
+
+### Checking the deployment {#checking-the-deployment-dockerfile}
+
+```plaintext command="lttle app get --ns samples nginx-custom-dockerfile" {3,7}
+               name: nginx-custom-dockerfile
+          namespace: samples
+               mode: regular
+              image: eu.registry.lttle.cloud/your-tenant/0e9c0cc0-f046-455a-a4f6-d4e5afc80fd6:latest
+               cpus: 1
+             memory: 64 MiB
+           services: public: https://nginx-custom-dockerfile--samples--public--your-tenant.eu.lttle.host → :80
+```
+
+## Making our deployments serverless
+
+Here we will convert our previous deployment to use [Machine &raquo; Flash Mode](../resources/machines.mdx#flash-mode) for cost-efficient serverless hosting.
+
+```yaml title="nginx-custom-dockerfile.lttle.yaml" {13-16}
+app:
+  name: nginx-default
+  namespace: samples
+  image: nginx:latest
+  resources:
+    cpu: 1
+    memory: 64
+  expose:
+    public:
+      port: 80
+      external:
+        protocol: https
+  mode:
     flash:
       strategy:
         listen-on-port: 80
-      timeout: 2
 ```
 
-The `build: auto` configuration tells lttle.cloud to:
-1. Automatically detect your project type (static files)
-2. Build an appropriate container image automatically
-3. Push the image to lttle.cloud's registry
-4. Deploy using the built image
-
-For more information about building, see [Building & Deploying > Building](../building-and-deploying/building.md).
-
-### Deploy your custom site
-
-Deploy with automatic building:
+And now we can redeploy it:
 
 ```bash
-lttle deploy
+lttle deploy nginx-custom-dockerfile.lttle.yaml
 ```
 
-You'll see build output:
-```
-→ Building image for default/hello-lttle
-→ Auto-build using providers: staticfile
-→ Pushing image for default/hello-lttle → registry.lttle.cloud/tenant/hello-lttle:abc123
-→ Successfully built and pushed image for default/hello-lttle
-→ Successfully deployed app: default/hello-lttle
-```
+This will update the existing deployment to use flash mode. The machine will now start up when it receives traffic and shut down after a period of inactivity, helping you save on compute costs.
 
-### Test your custom site
+To see this in action you can check the machine status:
 
-Check the machine status:
-
-```bash
-lttle machine ls
-```
-
-Once the machine reaches `suspended` state, open your site URL in the browser. You should now see your custom "Hello, lttle.cloud!" page instead of the nginx welcome page.
-
-## What's Next?
-
-You've successfully deployed a static site with:
-- ✅ Automatic image building from static files
-- ✅ Flash mode for cost-efficient serverless hosting  
-- ✅ Custom content served by nginx
-
-### Explore More Features
-
-- **Add a custom domain**: Set a custom `host` in your app's [expose external](../resources/apps.mdx#expose-external) configuration
-- **Add HTTPS**: Set up [certificates](../resources/certificates.mdx) for secure connections
-- **Build from source**: Learn about [advanced building options](../building-and-deploying/building.md)
-
-### Project Structure
-
-Your final project structure should look like:
-
-```
-my-static-site/
-├── lttle.yaml
-└── index.html
+```plaintext command="lttle machine get --ns samples nginx-custom-dockerfile" {3-4}
+                       name: nginx-custom-dockerfile
+                  namespace: samples
+                     status: suspended
+                       mode: flash
+          snapshot strategy: listen on port 80
+            suspend timeout: 10s
+                internal ip: 10.0.127.62
+                      image: eu.registry.lttle.cloud/your-tenant/c50a9c1f-932d-48cd-9e9f-c559ebc70426:la...
+                       cpus: 1
+                     memory: 64 MiB
 ```
 
-The `lttle.yaml` file defines your infrastructure, while `index.html` contains your site content. lttle.cloud automatically builds everything into a deployable container image.
+Note that:
+
+- The `mode` has changed to `flash`.
+- The `status` is now `suspended`, indicating that the machine is **not currently running**.
+
+And once you will visit the public service URL, the machine will start up in under 10ms and the status will change to `ready`.
